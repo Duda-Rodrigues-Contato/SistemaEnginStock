@@ -1,0 +1,30 @@
+----------ARQUIVO PARA DEFINIR OS MENUS----------
+
+Siga o que foi definido para você!
+
+1 - Todo menu deve ser definido como uma função seguindo obrigatoriamente o modelo a seguir:
+
+os.system('cls')
+print("=" * 50)
+print()
+print("-" * 50)
+print("SISTEMA ENGINSTOCK:")
+print("1 - nome da opção 1")
+print("2 - nome da opção 2")
+print("3 - nome da opção 3") ... isso será feito de acordo com a quantidade de opções
+print()
+print("=" * 50)
+
+
+2 - Além da função python, você deverá definir as variavéis para sua função e faze-las no arquivo JSON se necessário.
+OBS: Para criar a parte da sua função em JSON, crie um arquivo APENAS seu para o JSON. Ao lado da sua função no arquivo python, deixe um comentário com o nome do seu arquivo JSON.
+
+3 - Documente TUDO! Digite a seguir todas as modificações significativas que você fizer (por exemplo, se você importar alguma biblioteca.):
+Se identifique e coloque a mudança feita detalhadamente (se adicionou alguma pasta/arquivo, por exemplo, digite a funcionalidade e o nome)!
+Mundança 1:
+Mundança 2:
+Mundança 3:
+Mundança 4:
+Mundança 5:
+Mundança 6:
+Mundança 7:
