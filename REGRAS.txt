@@ -21,7 +21,7 @@ OBS: Para criar a parte da sua função em JSON, crie um arquivo APENAS seu para
 
 3 - Documente TUDO! Digite a seguir todas as modificações significativas que você fizer (por exemplo, se você importar alguma biblioteca.):
 Se identifique e coloque a mudança feita detalhadamente (se adicionou alguma pasta/arquivo, por exemplo, digite a funcionalidade e o nome)!
-Mundança 1:
+Mundança 1: Duda Rodrigues. Estava organizando o arquivo json da parte de cadastrar compra na pasta "Criação Duda". (07/11/24)
 Mundança 2:
 Mundança 3:
 Mundança 4:
