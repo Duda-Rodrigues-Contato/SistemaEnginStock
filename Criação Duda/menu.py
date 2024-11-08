@@ -10,7 +10,7 @@ cont_qtd_produtos = 0
 
 cadastrar_compra = os.path.join(os.path.dirname(__file__), "cadastrarcompra.json") 
 
-#Verificar se oo arquivo existe:
+#Verificar se o arquivo existe:
 def arquivo_cadastrar_compra():
     if not os.path.exists(cadastrar_compra):
         with open(cadastrar_compra, "w") as f:
