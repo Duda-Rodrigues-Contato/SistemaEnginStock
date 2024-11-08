@@ -25,7 +25,7 @@ def menu_inicial_compras():
     print("-" * 50)
     print("ÁREA DE COMPRAS:")
     print("4.1 - Cadastrar Compra.") #Variaveis: tempo de entrega da compra, código da compra p/ entrar em deletar compra, nome(s) do(s) produto(s) da compra e qtd de cada produto
-    print("4.2 - Listar Compras:.") #Criar outro menu p/ opção de período de compra (ex: 1 mês, 3 mês)
+    print("4.2 - Listar Compras.") #Criar outro menu p/ opção de período de compra (ex: 1 mês, 3 mês)
     print("4.3 - Atualizar Compra.") #Somente se o datetime não exceder o período de entrega do produto digitado na área "cadastrar compra".
     print("4.4 - Deletar Compra.")
     print("4.5 - Voltar.")
