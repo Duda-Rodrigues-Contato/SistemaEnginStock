@@ -1,0 +1,12 @@
+[
+    {
+        "nome": "jorge",
+        "cnpj": "b",
+        "telefone": "c"
+    },
+    {
+        "nome": "joao",
+        "cnpj": "c",
+        "telefone": "d"
+    }
+]
