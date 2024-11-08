@@ -16,7 +16,7 @@ def menu_principal():
     print('-' * 60)
     print(cor.NEGRITO + "Menu Inicial:" + cor.RESET)
     print()
-    print("1. Área de PProdutos.")
+    print("1. Área de Produtos.")
     print("2. Área de Estoque.")
     print("3. Área de Compras")
     print("4. Área de Fornecedores.")
@@ -24,6 +24,7 @@ def menu_principal():
     print("6. Encerrar Sistema.")
     print('-' * 60)
     print("=" * 60)
+    print()
 
 
 menu_principal()
@@ -48,6 +49,6 @@ def menu_compras():
     print("4.6 - Encerrar Sistema.")
     print('-' * 60)
     print("=" * 60)
-
+    print()
 
 menu_compras()
