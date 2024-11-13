@@ -1,5 +1,3 @@
-#MockUp feito para o sistema da EnginStock.
-
 import os
 
 class cor:
@@ -7,7 +5,7 @@ class cor:
     AZUL = '\033[44m'
     RESET = "\033[0m"
 
-
+#MENU INICIAL:
 def menu_principal():
 
     os.system('cls')
@@ -30,10 +28,7 @@ def menu_principal():
     print()
 
 
-menu_principal()
-
-#--------------------------------------------------------------------------#
-
+#1: Menu Produtos:
 def menu_produtos():
 
     os.system('cls')
@@ -56,10 +51,7 @@ def menu_produtos():
     print()
 
 
-menu_produtos()
-
-#--------------------------------------------------------------------------#
-
+#2: Menu Estoque:
 def menu_estoque(): 
 
     os.system('cls')
@@ -82,10 +74,7 @@ def menu_estoque():
     print()
 
 
-menu_estoque()
-
-#--------------------------------------------------------------------------#
-
+#3: Menu Compras:
 def menu_compras():
 
     os.system('cls')
@@ -97,21 +86,18 @@ def menu_compras():
     print("|" + " " + '-' * 60 + " " + "|")
     print("|" + " " + cor.NEGRITO + "Área de Compras:" + cor.RESET + " " * 45 + "|")
     print("|" + " " + " " * 61 + "|")
-    print("|" + " " + "3.1. Cadastrar Compra." + " " * 38 + "|")
-    print("|" + " " + "3.2. Listar Compras." + " " * 40 + "|")
-    print("|" + " " + "3.3. Atualizar Compra." + " " * 38 + "|")
-    print("|" + " " + "3.4. Deletar Compra." + " " * 40 + "|")
-    print("|" + " " + "3.5. Voltar." + " " * 48 + "|")
-    print("|" + " " + "3.6. Encerrar Sistema." + " " * 38 + "|")
+    print("|" + " " + "3.1. Cadastrar Compra." + " " * 39 + "|")
+    print("|" + " " + "3.2. Listar Compras." + " " * 41 + "|")
+    print("|" + " " + "3.3. Atualizar Compra." + " " * 39 + "|")
+    print("|" + " " + "3.4. Deletar Compra." + " " * 41 + "|")
+    print("|" + " " + "3.5. Voltar." + " " * 49 + "|")
+    print("|" + " " + "3.6. Encerrar Sistema." + " " * 39 + "|")
     print("|" + " " + '-' * 60 + " " + "|")
     print("|" + " " + "=" * 60 + " " + "|")
     print()
 
 
-menu_compras()
-
-#--------------------------------------------------------------------------#
-
+#4: Menu Fornecedores:
 def menu_fornecedores():
 
     os.system('cls')
@@ -134,10 +120,7 @@ def menu_fornecedores():
     print()
 
 
-menu_fornecedores()
-
-#--------------------------------------------------------------------------#
-
+#5: Menu Clientes:
 def menu_clientes():
 
     os.system('cls')
@@ -147,12 +130,12 @@ def menu_clientes():
     print("|" + " " + '-' * 60 + " " + "|")
     print("|" + " " + "=" * 60 + " " + "|")
     print("|" + " " + '-' * 60 + " " + "|")
-    print("|" + " " + cor.NEGRITO + "Área de Fornecedores:" + cor.RESET + " " * 40 + "|")
+    print("|" + " " + cor.NEGRITO + "Área de Clientes:" + cor.RESET + " " * 44 + "|")
     print("|" + " " + " " * 61 + "|")
-    print("|" + " " + "5.1. Cadastrar Clientes." + " " * 33 + "|")
-    print("|" + " " + "5.2. Listar Clientes." + " " * 36 + "|")
-    print("|" + " " + "5.3. Alterar Dados de Clientes." + " " * 26 + "|")
-    print("|" + " " + "5.4. Deletar Cliente." + " " * 37 + "|")
+    print("|" + " " + "5.1. Cadastrar Clientes." + " " * 37 + "|")
+    print("|" + " " + "5.2. Listar Clientes." + " " * 40 + "|")
+    print("|" + " " + "5.3. Alterar Dados de Clientes." + " " * 30 + "|")
+    print("|" + " " + "5.4. Deletar Cliente." + " " * 40 + "|")
     print("|" + " " + "5.5. Voltar." + " " * 49 + "|")
     print("|" + " " + "5.6. Encerrar Sistema." + " " * 39 + "|")
     print("|" + " " + '-' * 60 + " " + "|")
@@ -160,4 +143,15 @@ def menu_clientes():
     print()
 
 
-menu_clientes()
+#Mostrar LISTA de CLIENTES:
+def listar_clientes():
+
+    os.system('cls')
+    print("|" + " " + "=" * 60 + " " + "|")
+    print("|" + " " + '-' * 60 + " " + "|")
+    print("|" + " " + cor.NEGRITO + cor.AZUL + "SISTEMA ENGINSTOCK:" + cor.RESET + " " * 42 + "|")
+    print("|" + " " + '-' * 60 + " " + "|")
+    print("|" + " " + "=" * 60 + " " + "|")
+    print("|" + " " + '-' * 60 + " " + "|")
+    print("|" + " " + cor.NEGRITO + "Lista de Clientes:" + cor.RESET + " " * 44 + "|")
+    print("|" + " " + " " * 61 + "|")
