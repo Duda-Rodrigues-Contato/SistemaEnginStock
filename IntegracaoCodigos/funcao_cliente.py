@@ -4,6 +4,7 @@ import json
 import os
 from time import sleep
 from menus.menus import menu_clientes
+from datetime import datetime
 import re
 
 class cor:

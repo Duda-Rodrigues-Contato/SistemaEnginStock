@@ -22,7 +22,7 @@ def salvar_dados(arquivo, dados):
 produtos = carregar_dados(PRODUTOS_JSON)
 
 def validar_codigo_produto(codigo): 
-    return re.match(r"^P\d{3}$", codigo)
+    return re.match(r"^P\d{3}$", codigo) 
 
 def validar_cnpj(cnpj):
     return re.match(r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$", cnpj)

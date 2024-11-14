@@ -1,4 +1,11 @@
+#Malu --> Área de Produtos.
+#Área de Estoques.
+#Duda Rodrigues --> Área de Compras.
+#Nestor --> Área de Fornecedores.
+#Gabriel --> Área de Clientes.
+
 import os
+from time import sleep
 
 class cor:
     NEGRITO = '\033[1m'
@@ -155,3 +162,10 @@ def listar_clientes():
     print("|" + " " + '-' * 60 + " " + "|")
     print("|" + " " + cor.NEGRITO + "Lista de Clientes:" + cor.RESET + " " * 44 + "|")
     print("|" + " " + " " * 61 + "|")
+
+
+def encerrarsistema():
+
+    os.system('cls')
+    print("Encerrando Sistema...")
+    sleep(2.5)
