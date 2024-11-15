@@ -25,14 +25,16 @@ def verificar_arquivo():
 verificar_arquivo()
 
 #Função para carregar dados JSON:
-def carregar_dados(arquivo_produtos):
-    with open(arquivo_produtos, 'r') as f:
+def carregar_dados(produtos_json):
+    with open(produtos_json, 'r') as f:
         f = json.load(f)
 
 #Função para salvar dados JSON:
-def salvar_dados(arquivo_produtos, dados):
-    with open(arquivo_produtos, 'w') as f:
-        json.dump(dados, f, indent=4)
+def salvar_dados(produtos_json):
+    with open(produtos_json, 'w') as f:
+        f = json.dump([], f, indent=4)
+
+salvar_dados(produtos_json)
 
 #Inicialização dos dados:
 produtos = carregar_dados(produtos_json)
@@ -51,13 +53,14 @@ def create_product():
     carregar_dados(produtos_json)
 
     codigo_produto = input("Digite o código do produto: ")
-
+    produtos = [int(codigo_produto) for codigo_produto in produtos]
+    
     if not validar_codigo_produto(codigo_produto):
         
         print("Código Inválido!")
         print("O código deve começar por 'P' seguido por 3 caracteres.")
 
-    if codigo_produto in produtos:
+    if any (produtos["codigo_produto"] == codigo_produto for produtos in produtos_json):
         print("Produto já Cadastrado!")
         print("Retornando ao menu principal...")
         sleep(2)
@@ -77,7 +80,9 @@ def create_product():
     validade = input("Digite a data de validade do produto (caso necessário): ")
     preco = float(input("Digite o preço unitário do produto: "))
 
-    produtos[codigo_produto] = {
+    produtos = [int(codigo_produto) for codigo_produto in produtos]
+
+    produtos[codigo_produto] == {
         "nome": nome,
         "descricao": descricao,
         "categoria": categoria,

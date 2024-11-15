@@ -5,7 +5,6 @@ from datetime import datetime
 # Arquivo JSON para persistência de dados
 PRODUTOS_JSON = "produtos.json"
 
-
 # Funções para carregar e salvar dados JSON
 def carregar_dados(arquivo):
     try:
