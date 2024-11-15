@@ -20,19 +20,19 @@ produtos_json = os.path.join(os.path.dirname(__file__), "produtos.json")
 def verificar_arquivo():
     if not os.path.exists(produtos_json):
         with open(produtos_json, 'w') as f:
-            f = json.dump([], f, indent=4)
+            f = json.dump({}, f, indent=4)
 
 verificar_arquivo()
 
 #Função para carregar dados JSON:
 def carregar_dados(produtos_json):
     with open(produtos_json, 'r') as f:
-        f = json.load(f)
+        return json.load(f)
 
 #Função para salvar dados JSON:
 def salvar_dados(produtos_json):
     with open(produtos_json, 'w') as f:
-        f = json.dump([], f, indent=4)
+        f = json.dump({}, f, indent=4)
 
 salvar_dados(produtos_json)
 
@@ -52,19 +52,27 @@ def create_product():
 
     carregar_dados(produtos_json)
 
+    produtos = carregar_dados(produtos_json)
+
     codigo_produto = input("Digite o código do produto: ")
-    produtos = [int(codigo_produto) for codigo_produto in produtos]
     
     if not validar_codigo_produto(codigo_produto):
         
         print("Código Inválido!")
         print("O código deve começar por 'P' seguido por 3 caracteres.")
+    
+    for produto in produtos:
+        if produto['codigo_produto'] == codigo_produto:
+            print("Produto já Cadastrado!")
+            print("Retornando ao menu principal...")
+            sleep(2)
+            menu_principal()
 
-    if any (produtos["codigo_produto"] == codigo_produto for produtos in produtos_json):
-        print("Produto já Cadastrado!")
-        print("Retornando ao menu principal...")
-        sleep(2)
-        menu_principal()
+    #if any (produtos[codigo_produto] == codigo_produto_atualizado for produtos in produtos_json):
+    #    print("Produto já Cadastrado!")
+    #    print("Retornando ao menu principal...")
+    #    sleep(2)
+    #    menu_principal()
     
     nome = input("Digite o nome do produto: ")
     descricao = input("Digite a descrição do produto: ")
@@ -93,7 +101,9 @@ def create_product():
     }
 
     # Salvar os dados atualizados
-    salvar_dados(produtos_json, produtos)
+    with open(produtos_json, 'w') as f:
+        json.dump(produtos, f, indent=4)
+    #salvar_dados(produtos_json, produtos)
     print("Produtos cadastrados com sucesso!")
 
 
