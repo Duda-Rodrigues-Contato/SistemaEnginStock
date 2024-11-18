@@ -127,15 +127,14 @@ def validar_cnpj():
 
 
 
-def create_product():
+def criar_produto():
 
     while True:
 
         os.system('cls')
 
         codigo_produto = input("Digite o código do produto: ")
-        #letra_codigo_produto = input("Digite a letra de identificação código: ")
-        print(type(codigo_produto))
+        
         if not re.match(r"^P\d{3}$", codigo_produto):
             print("Código Inválido!")
             sleep(2)
@@ -168,7 +167,7 @@ def create_product():
  
 
 #Listar Produtos:
-def list_product():
+def listar_produto():
 
     if not produtos:
         print("Nenhum produto encontrado!")
@@ -179,7 +178,7 @@ def list_product():
 
         
 #Atualizar Dados de Produtos:
-def update_product():
+def atualizar_produto():
 
     codigo_produto = input("Digite o código do produto: ")
 
@@ -229,7 +228,7 @@ def update_product():
 
 
 #Deletar Produtos:
-def delete_product():
+def deletar_produto():
     codigo_produto = input("Digite o código do produto: ")
 
     if codigo_produto in produtos:
@@ -249,24 +248,25 @@ def menu_pro():
 
         match opca_produtos:
             case 1:
-                create_product()
+                criar_produto()
             case 2:
-                list_product()
+                listar_produto()
             case 3:
-                update_product()
+                atualizar_produto()
             case 4:
-                delete_product()
+                deletar_produto()
             case 5:
                 menu_principal()
             case 6:
                 print("Encerrando Sistema...")
                 sleep(2)
+                os.system('cls')
                 break
             case _:
                 print("Opção Inválida!")
                 return
 
-
+menu_pro()
 
 #--------------------------------------------------------------------------------------#
 
@@ -276,6 +276,16 @@ estoque = ler_arquivo_estoque(arquivo_estoque)
 #PARTE DE ESTOQUES:
 #Criar Produtos:
 
-#def cadastro_dias_estoque():
+def cadastro_dias_estoque():
 
-    #while True:
+    while True:
+
+        os.system('cls')
+
+        codigo_produto = input("Digite o código do produto: ")
+
+        if not re.match(r"^P\d{3}$", codigo_produto):
+            print("Código Inválido!")
+            sleep(2)
+            return
+        
