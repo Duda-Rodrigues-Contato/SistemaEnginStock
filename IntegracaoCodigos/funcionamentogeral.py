@@ -1,10 +1,7 @@
-#É nesse arquivo que rodaremos o código todo!
-
 import json
 import os
-from time import sleep
 import re
-from menus.menus import *
-from datetime import datetime
+from time import sleep
+from menus.menus import menu_produtos
+from codigosseparados.codigo_produtos import *
 
-menu_principal()

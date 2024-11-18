@@ -15,14 +15,13 @@ from datetime import datetime
 from menus.menus import menu_produtos, menu_principal, encerrarsistema
 
 produtos_json = os.path.join(os.path.dirname(__file__), "produtos.json") 
-
+dados_produtos = []
+produtos = {}
 #Função para verificar se o arquivo existe:
 def verificar_arquivo():
-    if not os.path.exists(produtos_json):
+    if not os.path.exists(produtos_json, dados_produtos):
         with open(produtos_json, 'w') as f:
-            f = json.dump({}, f, indent=4)
-
-verificar_arquivo()
+            f = json.dump(dados_produtos, f, indent=4)
 
 #Função para carregar dados JSON:
 def carregar_dados(produtos_json):
@@ -30,17 +29,17 @@ def carregar_dados(produtos_json):
         return json.load(f)
 
 #Função para salvar dados JSON:
-def salvar_dados(produtos_json):
+def salvar_dados(produtos_json, dados_produtos):
     with open(produtos_json, 'w') as f:
-        f = json.dump({}, f, indent=4)
+        f = json.dump(dados_produtos, f, indent=4)
 
-salvar_dados(produtos_json)
+salvar_dados(produtos_json, dados_produtos)
 
 #Inicialização dos dados:
 produtos = carregar_dados(produtos_json)
-
-def validar_codigo_produto(codigo): 
-    return re.match(r"^P\d{3}$", codigo) 
+dados_produtos = []
+#def validar_codigo_produto(codigo_produto): 
+#   return re.match(r"^\d{3}$", codigo_produto) 
 # ^Inicia uma string
 #OBS: o valor procurado tem 3 digitos
 
@@ -54,15 +53,18 @@ def create_product():
 
     produtos = carregar_dados(produtos_json)
 
-    codigo_produto = input("Digite o código do produto: ")
-    
-    if not validar_codigo_produto(codigo_produto):
+    codigo_produto_str = input("Digite o código do produto: ")
+    codigo_produto_int = int(codigo_produto_str)
+
+    if not len(codigo_produto_str) == 3:
+    #if not re(r"\d{3}$").match(codigo_produto): #validar_codigo_produto(codigo_produto):
         
         print("Código Inválido!")
-        print("O código deve começar por 'P' seguido por 3 caracteres.")
+        #print("O código deve começar por 'P' seguido por 3 caracteres.")
+        print("O código deve ter três caracteres.")
     
     for produto in produtos:
-        if produto['codigo_produto'] == codigo_produto:
+        if produto['codigo_produto_str'] == codigo_produto_str:
             print("Produto já Cadastrado!")
             print("Retornando ao menu principal...")
             sleep(2)
@@ -88,9 +90,8 @@ def create_product():
     validade = input("Digite a data de validade do produto (caso necessário): ")
     preco = float(input("Digite o preço unitário do produto: "))
 
-    produtos = [int(codigo_produto) for codigo_produto in produtos]
-
-    produtos[codigo_produto] == {
+    produtos = {
+        "codigo_produto": codigo_produto_int,
         "nome": nome,
         "descricao": descricao,
         "categoria": categoria,
@@ -100,43 +101,46 @@ def create_product():
         "preco": preco
     }
 
+    dados_produtos.append(produtos)
+
     # Salvar os dados atualizados
     with open(produtos_json, 'w') as f:
-        json.dump(produtos, f, indent=4)
+        json.dump(dados_produtos, f, indent=4)
     #salvar_dados(produtos_json, produtos)
     print("Produtos cadastrados com sucesso!")
 
 
 def list_product():
-    carregar_dados()
-    if not produtos:
-        print("Nenhum produto cadastrado.")
+
+    carregar_dados(produtos_json)
+    
+    #if os.path.exists(produtos_json) and os.path.getsize(produtos_json) > 0:
+     #   with open(produtos_json, "r") as f:
+      #      return json.load(f)
+    
+    if len(produtos_json) > 0 :
+        #for produtos in produtos_json:
+        for produtos in produtos_json:
+            print(f"Código: {produtos["codigo_produto_int"]}")
+            print(f"Nome: {produtos['nome']}")
     else:
-        for codigo, dados in produtos.items():
-            print(f"Código: {codigo}")
-            print(f"Nome: {dados['nome']}")
+        print("Nenhum produto cadastrado.")
+    
 
-
-def buscar_produto(codigo):
+def buscar_produto(codigo_produto):
 
     carregar_dados() #Leitura ('r')
     
     encontrado = False
 
-    for codigo in produtos:
-        if produtos['codigo'] == codigo:
+    for codigo_produto in produtos:
+        if produtos['codigo_produto'] == codigo_produto:
             print(f"NOME: {produtos['nome']}, CÓDIGO: {produtos['codigo']}")
             encontrado = True
     if not encontrado:
         print("Nenhum produto cadastrado.")
 
-
-def retornar_update():
-
-    print("1 - Continuar Atualizando.")
-    print("2 - Encerrar Sistema.")
         
-
 def update_product():
 
     codigo = input("Digite o código do produto (formato P000): ")
@@ -163,7 +167,8 @@ def update_product():
             nome = input("Digite o nome do produto: ")
             produtos[codigo]["nome"] = nome
 
-            retornar_update()
+            print("1 - Continuar Atualizando.")
+            print("2 - Encerrar Sistema.")
 
             escolha_retornar = int(input("Digite sua escolha: "))
 
@@ -183,7 +188,8 @@ def update_product():
             descricao = input("Digite a descrição do produto: ")
             produtos[codigo]["descricao"] = descricao
 
-            retornar_update()
+            print("1 - Continuar Atualizando.")
+            print("2 - Encerrar Sistema.")
 
             escolha_retornar = int(input("Digite sua escolha: "))
 
@@ -203,7 +209,8 @@ def update_product():
             categoria = input("Digite a categoria em que o produto se encaixa: ")
             produtos[codigo]["categoria"] = categoria
 
-            retornar_update()
+            print("1 - Continuar Atualizando.")
+            print("2 - Encerrar Sistema.")
 
             escolha_retornar = int(input("Digite sua escolha: "))
 
@@ -223,7 +230,8 @@ def update_product():
             quantidade = int(input("Digite a quantidade total do produto: "))
             produtos[codigo]["quantidade"] = int(quantidade)
 
-            retornar_update()
+            print("1 - Continuar Atualizando.")
+            print("2 - Encerrar Sistema.")
 
             escolha_retornar = int(input("Digite sua escolha: "))
 
@@ -243,7 +251,8 @@ def update_product():
             fornecedor = input("Digite o CNPJ do fornecedor que o produto foi comprado: ")
             produtos[codigo]["fornecedor_preferencial"] = fornecedor
 
-            retornar_update()
+            print("1 - Continuar Atualizando.")
+            print("2 - Encerrar Sistema.")
 
             escolha_retornar = int(input("Digite sua escolha: "))
 
@@ -263,7 +272,8 @@ def update_product():
             preco = float(input("Digite o preço unitário do produto: "))
             produtos[codigo]["preco_atual"] = float(preco)
 
-            retornar_update()
+            print("1 - Continuar Atualizando.")
+            print("2 - Encerrar Sistema.")
 
             escolha_retornar = int(input("Digite sua escolha: "))
 
@@ -283,7 +293,8 @@ def update_product():
             validade = input("Digite a data de validade do produto (caso necessário): ")
             produtos[codigo]["validade"] = validade
 
-            retornar_update()
+            print("1 - Continuar Atualizando.")
+            print("2 - Encerrar Sistema.")
 
             escolha_retornar = int(input("Digite sua escolha: "))
 
@@ -302,7 +313,8 @@ def update_product():
 
             print("Opção Inválida!")
 
-            retornar_update()
+            print("1 - Continuar Atualizando.")
+            print("2 - Encerrar Sistema.")
 
             escolha_retornar = int(input("Digite sua escolha: "))
 
