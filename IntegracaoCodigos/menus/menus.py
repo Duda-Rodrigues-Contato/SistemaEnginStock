@@ -38,7 +38,6 @@ def menu_principal():
 #1: Menu Produtos:
 def menu_produtos():
 
-    os.system('cls')
     print("|" + " " + "=" * 60 + " " + "|")
     print("|" + " " + '-' * 60 + " " + "|")
     print("|" + " " + cor.NEGRITO + cor.AZUL + "SISTEMA ENGINSTOCK:" + cor.RESET + " " * 42 + "|")
@@ -61,7 +60,6 @@ def menu_produtos():
 #2: Menu Estoque:
 def menu_estoque(): 
 
-    os.system('cls')
     print("|" + " " + "=" * 60 + " " + "|")
     print("|" + " " + '-' * 60 + " " + "|")
     print("|" + " " + cor.NEGRITO + cor.AZUL + "SISTEMA ENGINSTOCK:" + cor.RESET + " " * 42 + "|")
@@ -70,9 +68,9 @@ def menu_estoque():
     print("|" + " " + '-' * 60 + " " + "|")
     print("|" + " " + cor.NEGRITO + "Área de Estoque:" + cor.RESET + " " * 45 + "|")
     print("|" + " " + " " * 61 + "|")
-    print("|" + " " + "2.1. Cadastrar Informações." + " " * 34 + "|")
+    print("|" + " " + "2.1. Cadastro Dias em Estoque." + " " * 34 + "|")
     print("|" + " " + "2.2. Listar Produtos com Provisão 100%." + " " * 22 + "|")
-    print("|" + " " + "2.3. Alterar Produtos Removidos por Provisão 100%." + " " * 11 + "|")
+    print("|" + " " + "2.3. Alterar informações de estoque." + " " * 11 + "|")
     print("|" + " " + "2.4. Deletar Produtos com Provisão 100%." + " " * 21 + "|")
     print("|" + " " + "2.5. Voltar." + " " * 49 + "|")
     print("|" + " " + "2.6. Encerrar Sistema." + " " * 39 + "|")
