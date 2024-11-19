@@ -1,0 +1,26 @@
+{
+    "P009": {
+        "nome": "macarrao",
+        "descricao": "macarrao",
+        "categoria_produto": "comidas",
+        "qtd_produto": 15,
+        "preco_produto": 2.0,
+        "cnpj_fornecedor": "934.999.345/0001-00"
+    },
+    "P002": {
+        "nome": "eafv",
+        "descricao": "wsvwv",
+        "categoria_produto": "srvwv",
+        "qtd_produto": 25245,
+        "preco_produto": 23423.0,
+        "cnpj_fornecedor": "231"
+    },
+    "P007": {
+        "nome": "WWEF",
+        "descricao": "DCWECWE",
+        "categoria_produto": "WCWE",
+        "qtd_produto": 3453453,
+        "preco_produto": 345234.0,
+        "cnpj_fornecedor": "23423"
+    }
+}
