@@ -987,7 +987,7 @@ def main():
 
                 menu_produtos()
 
-                opca_produtos = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA: " + cor.RESET))
+                opca_produtos = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA (APENAS O ÚLTIMO NÚMERO): " + cor.RESET))
 
                 match opca_produtos:
                     case 1:
@@ -1011,7 +1011,7 @@ def main():
 
                 menu_estoque()
 
-                opcao_estoque = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA: " + cor.RESET))
+                opcao_estoque = float(input(cor.NEGRITO + "DIGITE SUA ESCOLHA (APENAS O ÚLTIMO NÚMERO): " + cor.RESET))
 
                 match opcao_estoque:
                     case 1:
@@ -1040,7 +1040,7 @@ def main():
 
                 menu_compras()
 
-                opcao_compras = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA: " + cor.RESET))
+                opcao_compras = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA (APENAS O ÚLTIMO NÚMERO): " + cor.RESET))
 
                 match opcao_compras:
                     case 1:
@@ -1065,7 +1065,7 @@ def main():
 
                 menu_fornecedores()
 
-                opcao_fornecedores = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA: " + cor.RESET))
+                opcao_fornecedores = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA (APENAS O ÚLTIMO NÚMERO): " + cor.RESET))
 
                 match opcao_fornecedores:
                     case 1:
@@ -1090,7 +1090,7 @@ def main():
 
                 menu_clientes()
 
-                opcao_clientes = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA: " + cor.RESET))
+                opcao_clientes = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA (APENAS O ÚLTIMO NÚMERO): " + cor.RESET))
 
                 match opcao_clientes:
                     case 1:
