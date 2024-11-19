@@ -266,7 +266,7 @@ def menu_pro():
                 print("Opção Inválida!")
                 return
 
-menu_pro()
+
 
 #--------------------------------------------------------------------------------------#
 
@@ -282,10 +282,156 @@ def cadastro_dias_estoque():
 
         os.system('cls')
 
-        codigo_produto = input("Digite o código do produto: ")
+        codigo_produto = input("Digite o código do produto no estoque: ")
 
         if not re.match(r"^P\d{3}$", codigo_produto):
             print("Código Inválido!")
             sleep(2)
             return
         
+        if not codigo_produto in produtos:
+            print("Produto não encontrado.")
+            return
+        
+        print(f"Vamos adicionar informações do produto {codigo_produto}!")
+
+        dias_parado = int(input("Digite o número de dias que o produto está parado no estoque: "))
+
+        if dias_parado < 0 or dias_parado % 2 != 1:
+            print("Valor Inválido!")
+            return
+        
+        estoque_minimo = float(input("Digite a quantidade minima desse produto no estoque: "))
+
+        if estoque_minimo < 0:
+            print("Valor Inválido!")
+            return
+        
+        estoque_maximo = float(input("Digite a quantidade máxima desse produto no estoque: "))
+
+        if estoque_maximo < 0:
+            print("Valor Inválido!")
+            return
+
+        consumo_mensal = float(input("Digite o consumo mensal: "))
+
+        if consumo_mensal < 0:
+            print("Valor Inválido!")
+            return
+        
+        estoque_seguranca = float(input("Digite o estoque de segurança: "))
+
+        if estoque_seguranca < 0:
+            print("Valor Inválido!")
+            return
+
+        produtos[codigo_produto] = {
+            'dias_parado': dias_parado,
+            'estoque_minimo': estoque_minimo,
+            'estoque_maximo': estoque_maximo,
+            'consumo_mensal': consumo_mensal,
+            'estoque_seguranca': estoque_seguranca
+    }
+        
+        carregar_arquivo_produto(arquivo_produto, produtos)
+        print(f"Produto {codigo_produto} cadastrado com sucesso!")
+        sleep(2)
+        break
+
+
+def lista_provisao_100():
+    
+    if not produtos:
+        print("Nenhum produto encontrado!")
+    else:
+        for codigo_produto, dias_parado in produtos.items():
+            if dias_parado > 180:
+                print(f"Código: {codigo_produto}")
+                print(f"Dias Parado: {dias_parado} dias")
+
+
+def atualizar_estoque():
+
+    codigo_produto = input("Digite o código do produto: ")
+
+    if not codigo_produto in produtos:
+        print("Produto não encontrado.")
+        return
+    
+    print("1 - Atualizar Dias Parado.")
+    print("2 - Atualizar Estoque Minimo.")
+    print("3 - Atualizar Estoque Máximo.")
+    print("4 - Atualizar Consumo Mensal.")
+    print("5 - Atualizar Estoque de Segurança.")
+
+    escolha_update_estoque = int(input("Digite sua escolha: "))
+
+    match escolha_update_estoque:
+        case 1:
+            dias_parado = int(input("Digite o número de dias que o produto está parado no estoque: "))
+            produtos[codigo_produto]['dias_parado'] = dias_parado
+            carregar_arquivo_produto(arquivo_produto, produtos)
+        case 2:
+            estoque_minimo = float(input("Digite a quantidade minima desse produto no estoque: "))
+            produtos[codigo_produto]['estoque_minimo'] = estoque_minimo
+            carregar_arquivo_produto(arquivo_produto, produtos)
+        case 3:
+            estoque_maximo = float(input("Digite a quantidade máxima desse produto no estoque: "))
+            produtos[codigo_produto]['estoque_maximo'] = estoque_maximo
+            carregar_arquivo_produto(arquivo_produto, produtos)
+        case 4:
+            consumo_mensal = float(input("Digite o consumo mensal: "))
+            produtos[codigo_produto]['consumo_mensal'] = consumo_mensal
+            carregar_arquivo_produto(arquivo_produto, produtos)
+        case 5:
+            estoque_seguranca = float(input("Digite o estoque de segurança: "))
+            produtos[codigo_produto]['estoque_seguranca'] = estoque_seguranca
+            carregar_arquivo_produto(arquivo_produto, produtos)
+        case _:
+            print("Produto Inválido!")
+            return
+  
+    print("Produto atualizado com sucesso!")
+
+
+def deletar_provisao_100():
+
+    codigo_produto = input("Digite o código do produto: ")
+
+    if codigo_produto in produtos and produtos['dias_parado'] > 180:
+        del produtos[codigo_produto]
+        carregar_arquivo_produto(arquivo_produto, produtos)
+        print("Produto deletado com sucesso!")
+    else:
+        print("Produto não encontrado!")
+
+def menu_est():
+
+    while True:
+
+        menu_estoque()
+
+        opcao_estoque = int(input("Digite sua escolha: "))
+
+        match opcao_estoque:
+            case 1:
+                cadastro_dias_estoque()
+            case 2:
+                lista_provisao_100()
+            case 3:
+                atualizar_estoque()
+            case 4:
+                deletar_provisao_100()
+            case 5:
+                menu_principal()
+            case 6:
+                print("Encerrando Sistema...")
+                sleep(2)
+                os.system('cls')
+                break
+            case _:
+                print("Opção Inválida!")
+                return
+
+
+menu_est()
