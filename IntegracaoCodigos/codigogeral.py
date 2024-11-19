@@ -3,6 +3,7 @@ import os
 import re
 from time import sleep
 from menus.menus import *
+import sys
 
 #Contadores:
 cont_letra_produto = 1
@@ -41,26 +42,9 @@ def carregar_arquivo(arquivo, dados):
         
 #--------------------------------------------------------------------------------------#
 
-
-
 produtos = ler_arquivo(arquivo_produto)
 #PARTE DE PRODUTOS:
 #Criar Produtos:
-def validar_cnpj(cnpj):
-    
-    while True:
-
-        if re.match(r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$", cnpj):
-        
-            print("CNPJ Válido!")
-            return cnpj
-        
-        else:
-            print("CNPJ Inválido!")
-            sleep(2)
-
-
-
 def criar_produto():
 
     while True:
@@ -69,13 +53,15 @@ def criar_produto():
 
         codigo_produto = input("Digite o código do produto: ")
         
-        if not re.match(r"^P\d{3}$", codigo_produto):
+        if not re.match(r"^P\d{3}$", codigo_produto) or codigo_produto in produtos:
             print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
             sleep(2)
-            return
-        
-        print("Código Válido!")
-        sleep(2)
+
 
         nome_produto = input("Digite o nome do produto: ")
         descricao_produto = input("Digite a descrição do produto: ")
@@ -83,7 +69,12 @@ def criar_produto():
         qtd_produto = int(input("Digite a quantidade do produto: "))
         preco_produto = float(input("Digite o valor unitário do produto: "))
         cnpj_fornecedor = input("Digite o CNPJ do fornecedor preferencial para comprar o produto: ")
-        validar_cnpj(cnpj_fornecedor)
+        
+        if not re.match(r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$", cnpj_fornecedor):
+            print("CNPJ Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
 
         produtos[codigo_produto] = {
             'nome': nome_produto,
@@ -92,7 +83,7 @@ def criar_produto():
             'qtd_produto': qtd_produto,
             'preco_produto': preco_produto,
             'cnpj_fornecedor': cnpj_fornecedor
-    } 
+        } 
 
 
         #Escrever dados atualizados:
@@ -117,65 +108,88 @@ def listar_produto():
 #Atualizar Dados de Produtos:
 def atualizar_produto():
 
-    codigo_produto = input("Digite o código do produto: ")
+    while True:
 
-    if not codigo_produto in produtos:
-        print("Produto não encontrado.")
-        return
-    
-    print("1 - Atualizar Nome.")
-    print("2 - Atualizar Descrição.")
-    print("3 - Atualizar Categoria.")
-    print("4 - Atualizar Quantidade em Estoque.")
-    print("5 - Atualizar Fornecedor Preferencial.")
-    print("6 - Atualizar Preço Unitário.")
+        codigo_produto = input("Digite o código do produto: ")
 
-    escolha_update_list = int(input("Digite sua escolha: "))
-
-    match escolha_update_list:
-        case 1:
-            nome_produto = input("Digite o nome do produto: ")
-            produtos[codigo_produto]['nome'] = nome_produto
-            carregar_arquivo(arquivo_produto, produtos)
-        case 2:
-            descricao_produto = input("Digite a descrição do produto: ")
-            produtos[codigo_produto]['descricao'] = descricao_produto
-            carregar_arquivo(arquivo_produto, produtos)
-        case 3:
-            categoria_produto = input("Digite a categoria do produto: ")
-            produtos[codigo_produto]['categoria_produto'] = categoria_produto
-            carregar_arquivo(arquivo_produto, produtos)
-        case 4:
-            qtd_produto = int(input("Digite a quantidade do produto: "))
-            produtos[codigo_produto]['qtd_produto'] = qtd_produto
-            carregar_arquivo(arquivo_produto, produtos)
-        case 5:
-            cnpj_fornecedor = input("Digite o CNPJ do fornecedor preferencial para comprar o produto: ")
-            validar_cnpj(cnpj_fornecedor)
-            produtos[codigo_produto]['cnpj_fornecedor'] = cnpj_fornecedor
-            carregar_arquivo(arquivo_produto, produtos)
-        case 6:
-            preco_produto = float(input("Digite o valor unitário do produto: "))
-            produtos[codigo_produto]['preco_produto'] = preco_produto
-            carregar_arquivo(arquivo_produto, produtos)       
-        case _:
-            print("Produto Inválido!")
-            return
+        if not re.match(r"^P\d{3}$", codigo_produto) or not codigo_produto in produtos:
+            print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
+            sleep(2)
         
-    print("Produto atualizado com sucesso!")
+        print("1 - Atualizar Nome.")
+        print("2 - Atualizar Descrição.")
+        print("3 - Atualizar Categoria.")
+        print("4 - Atualizar Quantidade em Estoque.")
+        print("5 - Atualizar CNPJ do Fornecedor Preferencial.")
+        print("6 - Atualizar Preço Unitário.")
+
+        escolha_update_list = int(input("Digite sua escolha: "))
+
+        match escolha_update_list:
+            case 1:
+                nome_produto = input("Digite o nome do produto: ")
+                produtos[codigo_produto]['nome'] = nome_produto
+                carregar_arquivo(arquivo_produto, produtos)
+            case 2:
+                descricao_produto = input("Digite a descrição do produto: ")
+                produtos[codigo_produto]['descricao'] = descricao_produto
+                carregar_arquivo(arquivo_produto, produtos)
+            case 3:
+                categoria_produto = input("Digite a categoria do produto: ")
+                produtos[codigo_produto]['categoria_produto'] = categoria_produto
+                carregar_arquivo(arquivo_produto, produtos)
+            case 4:
+                qtd_produto = int(input("Digite a quantidade do produto: "))
+                produtos[codigo_produto]['qtd_produto'] = qtd_produto
+                carregar_arquivo(arquivo_produto, produtos)
+            case 5:
+                cnpj_fornecedor = input("Digite o CNPJ do fornecedor preferencial para comprar o produto: ")
+                if not re.match(r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$", cnpj_fornecedor):
+                    print("CNPJ Inválido!")
+                    sleep(1)
+                    break
+                else:
+                    produtos[codigo_produto]['cnpj_fornecedor'] = cnpj_fornecedor
+                    carregar_arquivo(arquivo_produto, produtos)
+            case 6:
+                preco_produto = float(input("Digite o valor unitário do produto: "))
+                produtos[codigo_produto]['preco_produto'] = preco_produto
+                carregar_arquivo(arquivo_produto, produtos)       
+            case _:
+                print("Produto Inválido!")
+                return
+            
+        print("Produto atualizado com sucesso!")
 
 
 #Deletar Produtos:
 def deletar_produto():
 
-    codigo_produto = input("Digite o código do produto: ")
+    while True:
 
-    if codigo_produto in produtos:
-        del produtos[codigo_produto]
-        carregar_arquivo(arquivo_produto, produtos)
-        print("Produto deletado com sucesso!")
-    else:
-        print("Produto não encontrado!")
+        codigo_produto = input("Digite o código do produto: ")
+
+        if not re.match(r"^P\d{3}$", codigo_produto):
+            print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
+            sleep(2)
+
+        if codigo_produto in produtos:
+            del produtos[codigo_produto]
+            carregar_arquivo(arquivo_produto, produtos)
+            print("Produto deletado com sucesso!")
+            break
+        else:
+            print("Produto não encontrado!")
 
 def menu_pro():
 
@@ -223,14 +237,14 @@ def cadastro_dias_estoque():
 
         codigo_produto = input("Digite o código do produto no estoque: ")
 
-        if not re.match(r"^P\d{3}$", codigo_produto):
+        if not re.match(r"^P\d{3}$", codigo_produto) or codigo_produto in produtos:
             print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
             sleep(2)
-            return
-        
-        if not codigo_produto in produtos:
-            print("Produto não encontrado.")
-            return
         
         print(f"Vamos adicionar informações do produto {codigo_produto}!")
 
@@ -327,23 +341,23 @@ def atualizar_estoque():
     match escolha_update_estoque:
         case 1:
             dias_parado = int(input("Digite o número de dias que o produto está parado no estoque: "))
-            produtos[codigo_produto]['dias_parado'] = dias_parado
+            estoque[codigo_produto]['dias_parado'] = dias_parado
             carregar_arquivo(arquivo_estoque, estoque)
         case 2:
             estoque_minimo = float(input("Digite a quantidade minima desse produto no estoque: "))
-            produtos[codigo_produto]['estoque_minimo'] = estoque_minimo
+            estoque[codigo_produto]['estoque_minimo'] = estoque_minimo
             carregar_arquivo(arquivo_estoque, estoque)
         case 3:
             estoque_maximo = float(input("Digite a quantidade máxima desse produto no estoque: "))
-            produtos[codigo_produto]['estoque_maximo'] = estoque_maximo
+            estoque[codigo_produto]['estoque_maximo'] = estoque_maximo
             carregar_arquivo(arquivo_estoque, estoque)
         case 4:
             consumo_mensal = float(input("Digite o consumo mensal: "))
-            produtos[codigo_produto]['consumo_mensal'] = consumo_mensal
+            estoque[codigo_produto]['consumo_mensal'] = consumo_mensal
             carregar_arquivo(arquivo_estoque, estoque)
         case 5:
             estoque_seguranca = float(input("Digite o estoque de segurança: "))
-            produtos[codigo_produto]['estoque_seguranca'] = estoque_seguranca
+            estoque[codigo_produto]['estoque_seguranca'] = estoque_seguranca
             carregar_arquivo(arquivo_estoque, estoque)
         case _:
             print("Produto Inválido!")
@@ -354,30 +368,55 @@ def atualizar_estoque():
 
 def deletar_estoque():
 
-    codigo_produto = input("Digite o código do produto: ")
+    while True:
 
-    if codigo_produto in estoque:
-        del estoque[codigo_produto]
-        carregar_arquivo(arquivo_estoque, estoque)
-        print("Produto deletado com sucesso!")
-    else:
-        print("Produto não encontrado!")
+        codigo_produto = input("Digite o código do produto: ")
+
+        if not re.match(r"^P\d{3}$", codigo_produto):
+            print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
+            sleep(2)
+
+
+        if codigo_produto in estoque:
+            del estoque[codigo_produto]
+            carregar_arquivo(arquivo_estoque, estoque)
+            print("Produto deletado com sucesso!")
+            break
+        else:
+            print("Produto não encontrado!")
 
 
 def deletar_provisao_100():
 
-    codigo_produto = input("Digite o código do produto: ")
+    while True:
 
-    if not codigo_produto in estoque:  
-        print("Nenhum produto encontrado!")
-    else:
-        for codigo_produto, dados in estoque.items():
-            if dados['dias_parado'] > 180:
-                del estoque[codigo_produto]
-                carregar_arquivo(arquivo_estoque, estoque)
-                print("Produto deletado com sucesso!")
-            else:
-                print("Produto não tem provisão 100%!")
+        codigo_produto = input("Digite o código do produto: ")
+
+        if not re.match(r"^P\d{3}$", codigo_produto):
+            print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
+            sleep(2)
+            
+        if not codigo_produto in estoque:  
+            print("Nenhum produto encontrado!")
+        else:
+            for codigo_produto, dados in estoque.items():
+                if dados['dias_parado'] > 180:
+                    del estoque[codigo_produto]
+                    carregar_arquivo(arquivo_estoque, estoque)
+                    print("Produto deletado com sucesso!")
+                    break
+                else:
+                    print("Produto não tem provisão 100%!")
 
 def menu_est():
 
@@ -428,20 +467,26 @@ def cadastrar_compra():
 
         codigo_compra = input("Digite o código da compra: ")
 
-        if not re.match(r"^C\d{3}$", codigo_compra):
+        if not re.match(r"^C\d{3}$", codigo_compra) or codigo_compra in compras:
             print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
             sleep(2)
-            return
-        
-        print("Código Válido!")
-        sleep(2)
 
         nome_produto = input("Digite o nome do produto comprado: ")
         qtd_produto = int(input("Digite quantas unidades do produto foram compradas: "))
         tempo_entrega = float(input("Digite o tempo de entrega em DIAS: "))
         preco_compra = float(input("Digite o valor total da compra: "))
         cnpj_fornecedor_compra = input("Digite o CNPJ do fornecedor que a compra foi feita: ")
-        validar_cnpj(cnpj_fornecedor_compra)
+
+        if not re.match(r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$", cnpj_fornecedor_compra):
+            print("CNPJ Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
 
         preco_unitario = preco_compra // qtd_produto 
 
@@ -479,62 +524,80 @@ def listar_compras():
 #Alterar Compra:
 def alterar_compra():
 
-    codigo_compra = input("Digite o código da compra: ")
+    while True:
 
-    if not codigo_compra in compras:
-        print("Compra não encontrada.")
-        return
-    
-    print("1 - Atualizar Nome do Produto Comprado.")
-    print("2 - Atualizar Quantidade Comprada.")
-    print("3 - Atualizar Tempo de Entrega.")
-    print("4 - Atualizar Valor Total da Compra")
-    print("5 - Atualizar CNPJ do Fornecedor.")
+        codigo_compra = input("Digite o código da compra: ")
 
-    escolha_update_compra = int(input("Digite sua escolha: "))
-
-    match escolha_update_compra:
-        case 1:
-            nome_produto = input(f"Digite o nome do produto comprado: ")
-            produtos[codigo_compra]['nome_produto'] = nome_produto
-            carregar_arquivo(arquivo_compra, compras)
-        case 2:
-            qtd_produto = int(input(f"Digite quantas unidades do produto foram compradas: "))
-            produtos[codigo_compra]['qtd_produto'] = qtd_produto
-            carregar_arquivo(arquivo_compra, compras)
-        case 3:
-            tempo_entrega = float(input("Digite o tempo de entrega em DIAS: "))
-            produtos[codigo_compra]['tempo_entrega'] = tempo_entrega
-            carregar_arquivo(arquivo_compra, compras)
-        case 4:
-            preco_compra = float(input("Digite o valor total da compra: "))
-            preco_unitario = preco_compra // qtd_produto 
-            produtos[codigo_compra]['preco_compra'] = preco_compra
-            produtos[codigo_compra]['preco_unitario'] = preco_unitario
-            carregar_arquivo(arquivo_compra, compras)
-        case 5:
-            cnpj_fornecedor_compra = input("Digite o CNPJ do fornecedor que a compra foi feita: ")
-            validar_cnpj(cnpj_fornecedor_compra)
-            produtos[codigo_compra]['cnpj_fornecedor_compra'] = cnpj_fornecedor_compra
-            carregar_arquivo(arquivo_compra, compras)  
-        case _:
-            print("Compra Inválida!")
+        if not codigo_compra in compras:
+            print("Compra não encontrada.")
             return
         
-    print("Compra atualizada com sucesso!")
+        print("1 - Atualizar Nome do Produto Comprado.")
+        print("2 - Atualizar Quantidade Comprada.")
+        print("3 - Atualizar Tempo de Entrega.")
+        print("4 - Atualizar Valor Total da Compra")
+        print("5 - Atualizar CNPJ do Fornecedor.")
+
+        escolha_update_compra = int(input("Digite sua escolha: "))
+
+        match escolha_update_compra:
+            case 1:
+                nome_produto = input(f"Digite o nome do produto comprado: ")
+                produtos[codigo_compra]['nome_produto'] = nome_produto
+                carregar_arquivo(arquivo_compra, compras)
+            case 2:
+                qtd_produto = int(input(f"Digite quantas unidades do produto foram compradas: "))
+                produtos[codigo_compra]['qtd_produto'] = qtd_produto
+                carregar_arquivo(arquivo_compra, compras)
+            case 3:
+                tempo_entrega = float(input("Digite o tempo de entrega em DIAS: "))
+                produtos[codigo_compra]['tempo_entrega'] = tempo_entrega
+                carregar_arquivo(arquivo_compra, compras)
+            case 4:
+                preco_compra = float(input("Digite o valor total da compra: "))
+                preco_unitario = preco_compra // qtd_produto 
+                produtos[codigo_compra]['preco_compra'] = preco_compra
+                produtos[codigo_compra]['preco_unitario'] = preco_unitario
+                carregar_arquivo(arquivo_compra, compras)
+            case 5:
+                cnpj_fornecedor_compra = input("Digite o CNPJ do fornecedor que a compra foi feita: ")
+                if not re.match(r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$", cnpj_fornecedor_compra):
+                    print("CNPJ Inválido!")
+                    sleep(1)
+                    break
+                else:    
+                    produtos[codigo_compra]['cnpj_fornecedor_compra'] = cnpj_fornecedor_compra
+                    carregar_arquivo(arquivo_compra, compras)  
+            case _:
+                print("Compra Inválida!")
+                return
+            
+        print("Compra atualizada com sucesso!")
 
 
 #Deletar Compra:
 def deletar_compra():
 
-    codigo_compra = input("Digite o código da compra: ")
+    while True:
 
-    if codigo_compra in compras:
-        del compras[codigo_compra]
-        carregar_arquivo(arquivo_compra, compras)  
-        print("Compra deletada com sucesso!")
-    else:
-        print("Compra não encontrada!")
+        codigo_compra = input("Digite o código da compra: ")
+
+        if not re.match(r"^C\d{3}$", codigo_compra):
+            print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
+            sleep(2)
+
+        if codigo_compra in compras:
+            del compras[codigo_compra]
+            carregar_arquivo(arquivo_compra, compras)  
+            print("Compra deletada com sucesso!")
+            break
+        else:
+            print("Compra não encontrada!")
 
 
 def menu_com():
@@ -582,17 +645,25 @@ def criar_fornecedor():
 
         codigo_fornecedor = input("Digite o código do fornecedor: ")
 
-        if not re.match(r"^F\d{3}$", codigo_fornecedor):
+        if not re.match(r"^F\d{3}$", codigo_fornecedor) or codigo_fornecedor in fornecedores:
             print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
             sleep(2)
-            return
         
-        print("Código Válido!")
-        sleep(2)
 
         nome_fornecedor =  input("Digite o nome do fornecedor: ")
         cnpj_area_fornecedor = input("Digite o CNPJ do fornecedor que irá cadastrar: ")
-        validar_cnpj(cnpj_area_fornecedor)
+        
+        if not re.match(r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$", cnpj_area_fornecedor):
+            print("CNPJ Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+
         tempo_de_entrega = int(input("Digite o tempo de entrega dos produtos do fornecedor em DIAS: "))
 
 
@@ -626,50 +697,68 @@ def listar_fornecedores():
 #Atualizar Fornecedores:
 def atualizar_fornecedor():
 
-    codigo_fornecedor = input("Digite o código do fornecedor: ")
+    while True:
 
-    if not codigo_fornecedor in fornecedores:
-        print("Produto não encontrado.")
-        return
-    
-    print("1 - Atualizar Nome do Fornecedor.")
-    print("2 - Atualizar Tempo de Entrega do Fornecedor.")
-    print("3 - Atualizar CNPJ do Fornecedor.")
+        codigo_fornecedor = input("Digite o código do fornecedor: ")
 
-    escolha_fornecedor = int(input("Digite sua escolha: "))
-    
-    match escolha_fornecedor:
-        case 1:
-            nome_fornecedor =  input("Digite o nome do fornecedor: ")
-            fornecedores[codigo_fornecedor]['nome_fornecedor'] = nome_fornecedor
-            carregar_arquivo(arquivo_fornecedores, fornecedores)
-        case 2:
-            tempo_de_entrega = int(input("Digite o tempo de entrega dos produtos do fornecedor em DIAS:: "))
-            fornecedores[codigo_fornecedor]['tempo_de_entrega'] = tempo_de_entrega
-            carregar_arquivo(arquivo_fornecedores, fornecedores)
-        case 3:
-            cnpj_area_fornecedor = input("Digite o CNPJ do fornecedor que irá cadastrar: ")
-            validar_cnpj(cnpj_area_fornecedor)
-            fornecedores[codigo_fornecedor]['cnpj_area_fornecedor'] = cnpj_area_fornecedor
-            carregar_arquivo(arquivo_fornecedores, fornecedores)
-        case _:
-            print("Fornecedor Inválido!")
+        if not codigo_fornecedor in fornecedores:
+            print("Produto não encontrado.")
             return
         
-    print("Produto atualizado com sucesso!")
+        print("1 - Atualizar Nome do Fornecedor.")
+        print("2 - Atualizar Tempo de Entrega do Fornecedor.")
+        print("3 - Atualizar CNPJ do Fornecedor.")
+
+        escolha_fornecedor = int(input("Digite sua escolha: "))
+        
+        match escolha_fornecedor:
+            case 1:
+                nome_fornecedor =  input("Digite o nome do fornecedor: ")
+                fornecedores[codigo_fornecedor]['nome_fornecedor'] = nome_fornecedor
+                carregar_arquivo(arquivo_fornecedores, fornecedores)
+            case 2:
+                tempo_de_entrega = int(input("Digite o tempo de entrega dos produtos do fornecedor em DIAS:: "))
+                fornecedores[codigo_fornecedor]['tempo_de_entrega'] = tempo_de_entrega
+                carregar_arquivo(arquivo_fornecedores, fornecedores)
+            case 3:
+                cnpj_area_fornecedor = input("Digite o CNPJ do fornecedor que irá cadastrar: ")
+                if not re.match(r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$", cnpj_area_fornecedor):
+                    print("CNPJ Inválido!")
+                    sleep(1)
+                    break
+                else:
+                    fornecedores[codigo_fornecedor]['cnpj_area_fornecedor'] = cnpj_area_fornecedor
+                    carregar_arquivo(arquivo_fornecedores, fornecedores)
+            case _:
+                print("Fornecedor Inválido!")
+                return
+            
+        print("Produto atualizado com sucesso!")
 
 
 #Deletar Fornecedor:
 def deletar_fornecedor():
 
-    codigo_fornecedor = input("Digite o código do fornecedor: ")
+    while True:
 
-    if codigo_fornecedor in fornecedores:
-        del fornecedores[codigo_fornecedor]
-        carregar_arquivo(arquivo_fornecedores, fornecedores)
-        print("Fornecedor deletado com sucesso!")
-    else:
-        print("Fornecedor não encontrado!")
+        codigo_fornecedor = input("Digite o código do fornecedor: ")
+
+        if not re.match(r"^F\d{3}$", codigo_fornecedor):
+            print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
+            sleep(2)
+
+        if codigo_fornecedor in fornecedores:
+            del fornecedores[codigo_fornecedor]
+            carregar_arquivo(arquivo_fornecedores, fornecedores)
+            print("Fornecedor deletado com sucesso!")
+            break
+        else:
+            print("Fornecedor não encontrado!")
 
 
 def menu_for():
@@ -728,17 +817,24 @@ def criar_cliente():
 
         codigo_cliente = input("Digite o código do cliente: ")
 
-        if not re.match(r"^CL\d{3}$", codigo_cliente):
+        if not re.match(r"^CL\d{3}$", codigo_cliente) or codigo_cliente in clientes:
             print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
             sleep(2)
-            return
-        
-        print("Código Válido!")
-        sleep(2)
 
         nome_cliente = input("Digite o nome do cliente que irá cadastrar: ")
         cnpj_cliente = input("Digite o CNPJ do cliente que irá cadastrar: ")
-        validar_cnpj(cnpj_cliente)
+
+        if not re.match(r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$", cnpj_cliente):
+            print("CNPJ Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+
         telefone_cliente = input("Digite o telefone do cliente que irá cadastrar começando com 9: ")
         validar_telefone(telefone_cliente)
 
@@ -772,51 +868,69 @@ def listar_clientes():
 #Atualizar Clientes:
 def atualizar_clientes():
 
-    codigo_cliente = input("Digite o código do cliente: ")
+    while True:
 
-    if not codigo_cliente in clientes:
-        print("Cliente não encontrado.")
-        return
+        codigo_cliente = input("Digite o código do cliente: ")
 
-    print("1 - Atualizar Nome do Cliente.")
-    print("2 - Atualizar CNPJ do Cliente.")
-    print("3 - Atualizar Telefone do Cliente.")
-
-    escolha_cliente = int(input("Digite sua escolha: "))
-
-    match escolha_cliente:
-        case 1:
-            nome_cliente = input("Digite o nome do cliente que irá cadastrar: ")
-            clientes[codigo_cliente]['nome_fornecedor'] = nome_cliente
-            carregar_arquivo(arquivo_clientes, clientes)
-        case 2:
-            cnpj_cliente = input("Digite o CNPJ do cliente que irá cadastrar: ")
-            validar_cnpj(cnpj_cliente)
-            clientes[codigo_cliente]['cnpj_cliente'] = cnpj_cliente
-            carregar_arquivo(arquivo_clientes, clientes)
-        case 3:
-            telefone_cliente = input("Digite o telefone do cliente que irá cadastrar começando com 9: ")
-            validar_telefone(telefone_cliente)
-            clientes[codigo_cliente]['telefone_cliente'] = telefone_cliente
-            carregar_arquivo(arquivo_clientes, clientes)
-        case _:
-            print("Fornecedor Inválido!")
+        if not codigo_cliente in clientes:
+            print("Cliente não encontrado.")
             return
-        
-    print("Produto atualizado com sucesso!")
+
+        print("1 - Atualizar Nome do Cliente.")
+        print("2 - Atualizar CNPJ do Cliente.")
+        print("3 - Atualizar Telefone do Cliente.")
+
+        escolha_cliente = int(input("Digite sua escolha: "))
+
+        match escolha_cliente:
+            case 1:
+                nome_cliente = input("Digite o nome do cliente que irá cadastrar: ")
+                clientes[codigo_cliente]['nome_fornecedor'] = nome_cliente
+                carregar_arquivo(arquivo_clientes, clientes)
+            case 2:
+                cnpj_cliente = input("Digite o CNPJ do cliente que irá cadastrar: ")
+                if not re.match(r"^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$", cnpj_cliente):
+                    print("CNPJ Inválido!")
+                    sleep(1)
+                    break
+                else:
+                    clientes[codigo_cliente]['cnpj_cliente'] = cnpj_cliente
+                    carregar_arquivo(arquivo_clientes, clientes)
+            case 3:
+                telefone_cliente = input("Digite o telefone do cliente que irá cadastrar começando com 9: ")
+                validar_telefone(telefone_cliente)
+                clientes[codigo_cliente]['telefone_cliente'] = telefone_cliente
+                carregar_arquivo(arquivo_clientes, clientes)
+            case _:
+                print("Fornecedor Inválido!")
+                return
+            
+        print("Produto atualizado com sucesso!")
 
 
 #Deletar Cliente:
 def deletar_cliente():
 
-    codigo_cliente = input("Digite o código do cliente: ")
+    while True:
 
-    if codigo_cliente in clientes:
-        del clientes[codigo_cliente]
-        carregar_arquivo(arquivo_clientes, clientes)
-        print("Cliente deletado com sucesso!")
-    else:
-        print("Cliente não encontrado!")
+        codigo_cliente = input("Digite o código do cliente: ")
+
+        if not re.match(r"^CL\d{3}$", codigo_cliente):
+            print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
+            sleep(2)
+
+        if codigo_cliente in clientes:
+            del clientes[codigo_cliente]
+            carregar_arquivo(arquivo_clientes, clientes)
+            print("Cliente deletado com sucesso!")
+            break
+        else:
+            print("Cliente não encontrado!")
 
 
 def menu_cli():
@@ -888,7 +1002,6 @@ def main():
                         main()
                     case 6:
                         encerrarsistema()
-                        break
                     case _:
                         print("Opção Inválida!")
                         return
@@ -917,7 +1030,6 @@ def main():
                         main()
                     case 8:
                         encerrarsistema()
-                        break
                     case _:
                         print("Opção Inválida!")
                         return
@@ -943,7 +1055,6 @@ def main():
                         main()
                     case 6:
                         encerrarsistema()
-                        break
                     case _:
                         print("Opção Inválida!")
                         return
@@ -969,7 +1080,6 @@ def main():
                         main()
                     case 6:
                         encerrarsistema()
-                        break
                     case _:
                         print("Opção Inválida!")
                         return
@@ -995,7 +1105,6 @@ def main():
                         main()
                     case 6:
                         encerrarsistema()
-                        break
                     case _:
                         print("Opção Inválida!")
                         return
@@ -1003,5 +1112,11 @@ def main():
         case 6:
             encerrarsistema()
 
+        case _:
+            print("Opção Inválida!")
+            print(cor.NEGRITO + cor.AZUL + "OBRIGADO POR ESCOLHER A ENGINSTOCK!" + cor.RESET)
+            print(cor.NEGRITO + cor.AZUL + '\033[1;30mENCERRANDO SISTEMA...\033[m')
+            sleep(1.5)
+            sys.exit()
 
 main()

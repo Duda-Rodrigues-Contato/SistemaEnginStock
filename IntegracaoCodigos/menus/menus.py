@@ -6,6 +6,7 @@
 
 import os
 from time import sleep
+import sys
 
 class cor:
     TXTBRANCO = '\033[30'
@@ -178,7 +179,9 @@ def listar_clientes():
 
 def encerrarsistema():
 
-    os.system('cls')
-    print(cor.NEGRITO + cor.AZUL + "OBRIGADO POR ESCOLHER A ENGINSTOCK!" + cor.RESET)
-    print(cor.NEGRITO + cor.AZUL + '\033[1;30mENCERRANDO SISTEMA...\033[m')
-    sleep(2.5)
+    while True:
+        os.system('cls')
+        print(cor.NEGRITO + cor.AZUL + "OBRIGADO POR ESCOLHER A ENGINSTOCK!" + cor.RESET)
+        print(cor.NEGRITO + cor.AZUL + '\033[1;30mENCERRANDO SISTEMA...\033[m')
+        sleep(1.5)
+        sys.exit()
