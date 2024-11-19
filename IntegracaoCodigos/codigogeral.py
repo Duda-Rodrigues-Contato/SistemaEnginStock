@@ -292,6 +292,21 @@ def lista_provisao_100():
                 print("Nenhum produto com provisão 100%!")
 
 
+def listar_estoque():
+
+    if not estoque:
+        print("Nenhum produto encontrada!")
+    else:
+        for codigo_produto, dados in estoque.items():
+            print("-" * 25)
+            print(f"Código: {codigo_produto}")
+            print(f"Dias Parado no Estoque: {dados['dias_parado']}")
+            print(f"Estoque Minimo: {dados['estoque_minimo']}")
+            print(f"Estoque Máximo: {dados['estoque_maximo']}")
+            print(f"Consumo Mensal: {dados['consumo_mensal']}")
+            print(f"Estoque de Segurança: {dados['estoque_seguranca']}")
+            
+
 
 def atualizar_estoque():
 
@@ -337,11 +352,23 @@ def atualizar_estoque():
     print("Produto atualizado com sucesso!")
 
 
+def deletar_estoque():
+
+    codigo_produto = input("Digite o código do produto: ")
+
+    if codigo_produto in estoque:
+        del estoque[codigo_produto]
+        carregar_arquivo(arquivo_estoque, estoque)
+        print("Produto deletado com sucesso!")
+    else:
+        print("Produto não encontrado!")
+
+
 def deletar_provisao_100():
 
     codigo_produto = input("Digite o código do produto: ")
 
-    if not codigo_produto in produtos:  
+    if not codigo_produto in estoque:  
         print("Nenhum produto encontrado!")
     else:
         for codigo_produto, dados in estoque.items():
@@ -366,12 +393,16 @@ def menu_est():
             case 2:
                 lista_provisao_100()
             case 3:
-                atualizar_estoque()
+                listar_estoque()
             case 4:
-                deletar_provisao_100()
+                atualizar_estoque()
             case 5:
-                menu_principal()
+                deletar_provisao_100()
             case 6:
+                deletar_estoque()
+            case 7:
+                menu_principal()
+            case 8:
                 print("Encerrando Sistema...")
                 sleep(2)
                 os.system('cls')
@@ -875,12 +906,16 @@ def main():
                     case 2:
                         lista_provisao_100()
                     case 3:
-                        atualizar_estoque()
+                        listar_estoque()
                     case 4:
-                        deletar_provisao_100()
+                        atualizar_estoque()
                     case 5:
-                        main()
+                        deletar_provisao_100()
                     case 6:
+                        deletar_estoque()
+                    case 7:
+                        main()
+                    case 8:
                         encerrarsistema()
                         break
                     case _:
