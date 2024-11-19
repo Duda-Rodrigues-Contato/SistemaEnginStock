@@ -817,4 +817,156 @@ def menu_cli():
                 return
 
 
-menu_cli()
+
+#--------------------------------------------------------------------------------------#
+
+
+
+#FUNCIONAMENTO DO CÓDIGO:
+def main():
+
+    menu_boas_vindas()
+
+    sleep(1.5)
+
+    os.system('cls')
+
+    menu_principal()
+
+    escolha_menu_principal = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA: " + cor.RESET))
+
+    match escolha_menu_principal:
+        case 1:
+
+            while True:
+
+                menu_produtos()
+
+                opca_produtos = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA: " + cor.RESET))
+
+                match opca_produtos:
+                    case 1:
+                        criar_produto()
+                    case 2:
+                        listar_produto()
+                    case 3:
+                        atualizar_produto()
+                    case 4:
+                        deletar_produto()
+                    case 5:
+                        main()
+                    case 6:
+                        encerrarsistema()
+                        break
+                    case _:
+                        print("Opção Inválida!")
+                        return
+        case 2:
+            
+            while True:
+
+                menu_estoque()
+
+                opcao_estoque = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA: " + cor.RESET))
+
+                match opcao_estoque:
+                    case 1:
+                        cadastro_dias_estoque()
+                    case 2:
+                        lista_provisao_100()
+                    case 3:
+                        atualizar_estoque()
+                    case 4:
+                        deletar_provisao_100()
+                    case 5:
+                        main()
+                    case 6:
+                        encerrarsistema()
+                        break
+                    case _:
+                        print("Opção Inválida!")
+                        return
+
+        case 3:
+
+            while True:
+
+                menu_compras()
+
+                opcao_compras = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA: " + cor.RESET))
+
+                match opcao_compras:
+                    case 1:
+                        cadastrar_compra()
+                    case 2:
+                        listar_compras()
+                    case 3:
+                        alterar_compra()
+                    case 4:
+                        deletar_compra()
+                    case 5:
+                        main()
+                    case 6:
+                        encerrarsistema()
+                        break
+                    case _:
+                        print("Opção Inválida!")
+                        return
+
+        case 4:
+            
+            while True:
+
+                menu_fornecedores()
+
+                opcao_fornecedores = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA: " + cor.RESET))
+
+                match opcao_fornecedores:
+                    case 1:
+                        criar_fornecedor()
+                    case 2:
+                        listar_fornecedores()
+                    case 3:
+                        atualizar_fornecedor()
+                    case 4:
+                        deletar_fornecedor()
+                    case 5:
+                        main()
+                    case 6:
+                        encerrarsistema()
+                        break
+                    case _:
+                        print("Opção Inválida!")
+                        return
+            
+        case 5:
+            
+            while True:
+
+                menu_clientes()
+
+                opcao_clientes = int(input(cor.NEGRITO + "DIGITE SUA ESCOLHA: " + cor.RESET))
+
+                match opcao_clientes:
+                    case 1:
+                        criar_cliente()
+                    case 2:
+                        listar_clientes()
+                    case 3:
+                        atualizar_clientes()
+                    case 4:
+                        deletar_cliente()
+                    case 5:
+                        main()
+                    case 6:
+                        encerrarsistema()
+                        break
+                    case _:
+                        print("Opção Inválida!")
+                        return
+
+        case 6:
+            encerrarsistema()
+
+
+main()

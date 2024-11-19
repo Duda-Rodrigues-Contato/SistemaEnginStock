@@ -8,9 +8,25 @@ import os
 from time import sleep
 
 class cor:
+    TXTBRANCO = '\033[30'
     NEGRITO = '\033[1m'
-    AZUL = '\033[44m'
+    AZUL = '\033[44m' 
     RESET = "\033[0m"
+    BRANCOEAZUL = '\033[m0;30;44m'
+
+#MENU BOAS-VINDAS:
+def menu_boas_vindas():
+
+    os.system('cls')
+    print()
+    print()
+    print("|" + " " + "=" * 32 + " " + "|")
+    print("|" + " " + '-' * 32 + " " + "|")
+    print("|" + " " + '\033[1;30;44mBEM VINDO AO SISTEMA ENGINSTOCK!\033[m' + " " * 1 + "|")
+    print("|" + " " + '-' * 32 + " " + "|")
+    print("|" + " " + "=" * 32 + " " + "|")
+    print()
+    print()
 
 #MENU INICIAL:
 def menu_principal():
@@ -33,7 +49,7 @@ def menu_principal():
     print("|" + " " + "=" * 60 + " " + "|")
     print()
 
-
+menu_principal()
 #1: Menu Produtos:
 def menu_produtos():
 
@@ -161,5 +177,6 @@ def listar_clientes():
 def encerrarsistema():
 
     os.system('cls')
-    print("Encerrando Sistema...")
+    print(cor.NEGRITO + cor.AZUL + "OBRIGADO POR ESCOLHER A ENGINSTOCK!" + cor.RESET)
+    print(cor.NEGRITO + cor.AZUL + '\033[1;30mENCERRANDO SISTEMA...\033[m')
     sleep(2.5)
