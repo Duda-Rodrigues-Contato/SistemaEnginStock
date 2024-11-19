@@ -230,30 +230,22 @@ produtos = ler_arquivo(arquivo_produto)
 #PARTE DE ESTOQUES:
 #Criar Produtos:
 def cadastro_dias_estoque():
-
-    while True:
+   
+      while True:
 
         os.system('cls')
 
-       try:
-            codigo_produto = input("Digite o código do produto (formato P001): ").strip()
+        codigo_produto = input("Digite o código do produto no estoque: ")
 
-            # Valida o formato do código do produto
-            if not validar_codigo_produto(codigo_produto):
-                print("Código do produto inválido! O formato correto é P001, P002, etc.")
-                continue
-
-            # Verifica se o código do produto já existe no estoque
-            if codigo_produto in estoque:
-                print(f"Produto com o código {codigo_produto} já cadastrado!")
-                atualizar = input("Deseja atualizar as informações deste produto? (S/N): ").strip().lower()
-                if atualizar == 's':
-                    atualizar_informacoes_estoque(codigo_produto)
-                    return
-                else:
-                    print("Cadastro de novo produto cancelado.")
-                    return
-    nome_produto = input("Digite o nome do produto: ").strip()
+        if not re.match(r"^P\d{3}$", codigo_produto) or codigo_produto in produtos:
+            print("Código Inválido!")
+            sleep(1)
+            os.system('cls')
+            break
+        else:
+            print("Código Válido!")
+            sleep(2)
+            
         
         print(f"Vamos adicionar informações do produto {codigo_produto}!")
 
