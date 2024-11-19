@@ -15,7 +15,6 @@ class cor:
 #MENU INICIAL:
 def menu_principal():
 
-    os.system('cls')
     print("|" + " " + "=" * 60 + " " + "|")
     print("|" + " " + '-' * 60 + " " + "|")
     print("|" + " " + cor.NEGRITO + cor.AZUL + "SISTEMA ENGINSTOCK:" + cor.RESET + " " * 42 + "|")
@@ -82,7 +81,6 @@ def menu_estoque():
 #3: Menu Compras:
 def menu_compras():
 
-    os.system('cls')
     print("|" + " " + "=" * 60 + " " + "|")
     print("|" + " " + '-' * 60 + " " + "|")
     print("|" + " " + cor.NEGRITO + cor.AZUL + "SISTEMA ENGINSTOCK:" + cor.RESET + " " * 42 + "|")
@@ -92,7 +90,7 @@ def menu_compras():
     print("|" + " " + cor.NEGRITO + "Área de Compras:" + cor.RESET + " " * 45 + "|")
     print("|" + " " + " " * 61 + "|")
     print("|" + " " + "3.1. Cadastrar Compra." + " " * 39 + "|")
-    print("|" + " " + "3.2. Listar Compras." + " " * 41 + "|")
+    print("|" + " " + "3.2. Listar Histórico Compras." + " " * 31 + "|")
     print("|" + " " + "3.3. Atualizar Compra." + " " * 39 + "|")
     print("|" + " " + "3.4. Deletar Compra." + " " * 41 + "|")
     print("|" + " " + "3.5. Voltar." + " " * 49 + "|")
@@ -105,7 +103,6 @@ def menu_compras():
 #4: Menu Fornecedores:
 def menu_fornecedores():
 
-    os.system('cls')
     print("|" + " " + "=" * 60 + " " + "|")
     print("|" + " " + '-' * 60 + " " + "|")
     print("|" + " " + cor.NEGRITO + cor.AZUL + "SISTEMA ENGINSTOCK:" + cor.RESET + " " * 42 + "|")
@@ -128,7 +125,6 @@ def menu_fornecedores():
 #5: Menu Clientes:
 def menu_clientes():
 
-    os.system('cls')
     print("|" + " " + "=" * 60 + " " + "|")
     print("|" + " " + '-' * 60 + " " + "|")
     print("|" + " " + cor.NEGRITO + cor.AZUL + "SISTEMA ENGINSTOCK:" + cor.RESET + " " * 42 + "|")
