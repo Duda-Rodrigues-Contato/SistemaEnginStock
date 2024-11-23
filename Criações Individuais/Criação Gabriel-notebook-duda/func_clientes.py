@@ -5,17 +5,15 @@ import re
 def create_client():
     caminho_arquivo = "D:/GitHub/studies-python/Cesar/trabalho aeda clientes/clientes.json"
     
-    # Carrega os dados existentes no arquivo, se houver
     dados_existentes = []
     if os.path.exists(caminho_arquivo) and os.path.getsize(caminho_arquivo) > 0:
         with open(caminho_arquivo, "r") as arquivo:
             dados_existentes = json.load(arquivo)
 
     while True:
-        # Verifica se o CNPJ é válido e não duplicado
         while True:
             cnpj = input("Digite o CNPJ do cliente (14 dígitos): ")
-            cnpj = re.sub(r'[^0-9]', '', cnpj)  # Remove caracteres especiais
+            cnpj = re.sub(r'[^0-9]', '', cnpj)
             if not (cnpj.isdigit() and len(cnpj) == 14):
                 print("CNPJ inválido. Certifique-se de que contém 14 dígitos numéricos.")
                 continue
@@ -24,7 +22,6 @@ def create_client():
             else:
                 break
 
-        # Verifica se o telefone é válido e não duplicado
         while True:
             telefone = input("Digite o telefone do cliente (9 dígitos, começando com 9): ")
             if not (telefone.isdigit() and len(telefone) == 9 and telefone.startswith('9')):
@@ -43,7 +40,6 @@ def create_client():
 
         dados_existentes.append(cliente)
 
-        # Salva os dados
         with open(caminho_arquivo, "w") as arquivo:
             json.dump(dados_existentes, arquivo, indent=4)
 
@@ -52,7 +48,6 @@ def create_client():
         print(f"CNPJ: {cliente['cnpj']}")
         print(f"Telefone: {cliente['telefone']}")
 
-        # Pergunta se o usuário deseja cadastrar outro cliente
         continuar = input("\nDeseja cadastrar outro cliente? (s/n): ").strip().lower()
         if continuar != 's':
             print("Cadastro encerrado.")
@@ -74,8 +69,7 @@ def update_client():
         if cnpj_cliente.lower() == 'sair':
             print("Operação cancelada.")
             return
-
-        # Remove caracteres especiais antes de buscar o cliente
+        
         cnpj_cliente = re.sub(r'[^0-9]', '', cnpj_cliente)
         
         cliente_encontrado = False
@@ -88,7 +82,7 @@ def update_client():
                 
                 while True:
                     novo_cnpj = input(f"CNPJ [{cliente['cnpj']}]: ") or cliente["cnpj"]
-                    novo_cnpj = re.sub(r'[^0-9]', '', novo_cnpj)  # Remove caracteres especiais
+                    novo_cnpj = re.sub(r'[^0-9]', '', novo_cnpj)
                     if not (novo_cnpj.isdigit() and len(novo_cnpj) == 14):
                         print("CNPJ inválido. Certifique-se de que contém 14 dígitos numéricos.")
                         continue
@@ -103,7 +97,6 @@ def update_client():
                     cliente["telefone"] = novo_telefone
                     break
 
-                # Salvar dados atualizados no arquivo JSON
                 with open(caminho_arquivo, "w") as arquivo:
                     json.dump(dados_existentes, arquivo, indent=4)
 
@@ -120,7 +113,6 @@ def update_client():
 def delete_client():
     caminho_arquivo = "D:/GitHub/studies-python/Cesar/trabalho aeda clientes/clientes.json"
     
-    # Carregar dados existentes
     if os.path.exists(caminho_arquivo) and os.path.getsize(caminho_arquivo) > 0:
         with open(caminho_arquivo, "r") as arquivo:
             dados_existentes = json.load(arquivo)
@@ -130,14 +122,12 @@ def delete_client():
 
     cnpj_cliente = input("Digite o CNPJ do cliente que deseja excluir: ")
 
-    # Remove caracteres especiais do CNPJ antes de verificar
     cnpj_cliente = re.sub(r'[^0-9]', '', cnpj_cliente)
 
     if not (cnpj_cliente.isdigit() and len(cnpj_cliente) == 14):
         print("CNPJ inválido. Certifique-se de que contém 14 dígitos numéricos.")
         return
 
-    # Procurar e excluir
     cliente_encontrado = False
     for i, cliente in enumerate(dados_existentes):
         if cliente["cnpj"] == cnpj_cliente:
@@ -150,14 +140,12 @@ def delete_client():
         print("Cliente com o CNPJ especificado não encontrado.")
         return
 
-    # Salvar os dados atualizados
     with open(caminho_arquivo, "w") as arquivo:
         json.dump(dados_existentes, arquivo, indent=4)
 
 def list_clients():
     caminho_arquivo = "D:/GitHub/studies-python/Cesar/trabalho aeda clientes/clientes.json"
     
-    # Verifica se o arquivo existe e contém dados
     if os.path.exists(caminho_arquivo) and os.path.getsize(caminho_arquivo) > 0:
         with open(caminho_arquivo, "r") as arquivo:
             dados_existentes = json.load(arquivo)
@@ -165,17 +153,37 @@ def list_clients():
         print("Nenhum cliente encontrado.")
         return
 
-    # Exibe a lista com todos os clientes
-    print("\nLista de Clientes:")
-    for cliente in dados_existentes:
-        # Formatar o CNPJ para exibição
-        cnpj_formatado = f"{cliente['cnpj'][:2]}.{cliente['cnpj'][2:5]}.{cliente['cnpj'][5:8]}/{cliente['cnpj'][8:12]}-{cliente['cnpj'][12:]}"
-        print(f"Nome: {cliente['nome']}")
-        print(f"CNPJ: {cnpj_formatado}")
-        print(f"Telefone: {cliente['telefone']}")
-        print("-" * 30)
+    print("\nEscolha uma opção:")
+    print("1. Listar todos os clientes")
+    print("2. Buscar um cliente específico")
+    opcao = input("Digite o número da opção desejada: ").strip()
 
-create_client()
-update_client()
-delete_client()
-list_clients()
+    if opcao == "1":
+        print("\nLista de Clientes:")
+        for cliente in dados_existentes:
+            cnpj_formatado = f"{cliente['cnpj'][:2]}.{cliente['cnpj'][2:5]}.{cliente['cnpj'][5:8]}/{cliente['cnpj'][8:12]}-{cliente['cnpj'][12:]}"
+            print(f"Nome: {cliente['nome']}")
+            print(f"CNPJ: {cnpj_formatado}")
+            print(f"Telefone: {cliente['telefone']}")
+            print("-" * 30)
+
+    elif opcao == "2":
+        busca = input("Digite o nome ou o CNPJ do cliente que deseja buscar: ").strip()
+        busca = re.sub(r'[^0-9]', '', busca) if busca.isdigit() else busca.lower()
+        
+        cliente_encontrado = False
+        for cliente in dados_existentes:
+            if cliente["cnpj"] == busca or cliente["nome"].lower() == busca:
+                cliente_encontrado = True
+                cnpj_formatado = f"{cliente['cnpj'][:2]}.{cliente['cnpj'][2:5]}.{cliente['cnpj'][5:8]}/{cliente['cnpj'][8:12]}-{cliente['cnpj'][12:]}"
+                print("\nCliente encontrado:")
+                print(f"Nome: {cliente['nome']}")
+                print(f"CNPJ: {cnpj_formatado}")
+                print(f"Telefone: {cliente['telefone']}")
+                print("-" * 30)
+                break
+
+        if not cliente_encontrado:
+            print("\nCliente não encontrado. Verifique o nome ou CNPJ e tente novamente.")
+    else:
+        print("\nOpção inválida. Tente novamente.")
