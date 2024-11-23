@@ -8,7 +8,7 @@ import sys
 #Definir arquivos de cada arquivo: 
 arquivo_produto = "produtos.json"
 arquivo_estoque = "estoque.json"
-arquivo_compra = "compras.json"
+#arquivo_compra = "compras.json"
 arquivo_clientes = "clientes.json"
 arquivo_fornecedores = "fornecedores.json"
 
