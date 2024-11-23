@@ -5,9 +5,6 @@ from time import sleep
 from menus.menus import *
 import sys
 
-#Contadores:
-cont_letra_produto = 1
-
 #Definir arquivos de cada arquivo: 
 arquivo_produto = "produtos.json"
 arquivo_estoque = "estoque.json"
@@ -36,7 +33,7 @@ def carregar_arquivo(arquivo, dados):
         with open(arquivo, 'w') as f:
             json.dump(dados, f, indent=4)
     except Exception as e:
-        print(f"Erro ao salvar fdados no arquivo: {e}.")
+        print(f"Erro ao salvar dados no arquivo: {e}.")
 
 
         
