@@ -227,8 +227,8 @@ produtos = ler_arquivo(arquivo_produto)
 #PARTE DE ESTOQUES:
 #Criar Produtos:
 def cadastro_dias_estoque():
-
-    while True:
+   
+      while True:
 
         os.system('cls')
 
@@ -242,6 +242,7 @@ def cadastro_dias_estoque():
         else:
             print("Código Válido!")
             sleep(2)
+            
         
         print(f"Vamos adicionar informações do produto {codigo_produto}!")
 
