@@ -6,23 +6,35 @@ import sys
 from time import sleep
 from menus import *
 
+def arquivo_existe(arquivo):
+    if not os.path.exists(arquivo) or os.path.getsize(arquivo) < 0:
+        with open(arquivo_existe, 'w') as f:
+            json.dump({}, f, indent=4)
+
 def ler_arquivo(arquivo):
-    try:
-        with open(arquivo, 'r') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {}
+    with open(arquivo, 'r') as f:
+        return json.load(f)
+    
+
+#try:
+    #with open(arquivo, 'r') as f:
+        #return json.load(f)
+#except FileNotFoundError:
+    #return {}
     
 
 def escrever_arquivo(arquivo, dados):
-    try:
-        with open(arquivo, 'w') as f:
-            json.dump(dados, f, indent=4)
-    except Exception as e:
-        print(f"Erro ao salvar dados no arquivo: {e}.")
+    with open(arquivo, 'w') as f:
+        json.dump(dados, f, indent=4)
+    
+#try:
+    #with open(arquivo, 'w') as f:
+        #json.dump(dados, f, indent=4)
+#except Exception as e:
+    #print(f"Erro ao salvar dados no arquivo: {e}.")
     
 
-def ler_escrever_arquivo(arquivo):
+def ler_escrever_arquivo(arquivo): #Pode excluir
 
     if not os.path.exists(arquivo):
         with open(arquivo, 'w') as f:
@@ -42,18 +54,11 @@ def listar():
 
 def buscar():
 
-    os.system('cls')
     print()
     print()
-    print("  " + "|" + " " + "=" * 60 + " " + "|")
-    print("  " + "|" + " " + '-' * 60 + " " + "|")
-    print("  " + "|" + "  " * 10 + '\033[1;30;44mSISTEMA ENGINSTOCK:\033[m' + " " * 23 + "|")
-    print("  " + "|" + " " + '-' * 60 + " " + "|")
-    print("  " + "|" + " " + "=" * 60 + " " + "|")
-    print("  " + "|" + " " + '-' * 60 + " " + "|")
-    print("  " + "|" + " " * 62 + "|")
-    print("  " + "|" + " " * 20 + '\033[1mBuscar Compras:\033[m' + " " * 27 + "|")
-    print("  " + "|" + " " * 20 + " " * 42 + "|")
+    print("       " + '\033[1;30;44mSISTEMA ENGINSTOCK:\033[m')
+    print("       " + '\033[1mBuscar Compras:\033[m')
+    print()
 
 
 def att_compra():
@@ -67,13 +72,31 @@ def att_compra():
 
 def validar_codigo(codigo, dicionario):
 
-    if not re.match(r"^C\d{3}$", codigo) or not codigo in dicionario:
+    if not re.match(r"^C\d{3}$", codigo):
         print("Código Inválido!")
-        sleep(3)
+        sleep(1)
+        sys.exit()
+    elif codigo in dicionario:
+        print("Código Já Cadastrado!")
+        sleep(1)
         sys.exit()
     else:
         print("Código Válido!")
-        sleep(1.5)
+        sleep(1)
+
+
+def validar_codigo_buscar(codigo, dicionario):
+    if not re.match(r"^C\d{3}$", codigo):
+        print("Código Inválido!")
+        sleep(1)
+        sys.exit()
+    elif codigo not in dicionario:
+        print("Código Não Cadastrado!")
+        sleep(1)
+        sys.exit()
+    else:
+        print("Código Válido!")
+        sleep(1)
 
 
 def validar_cnpj(cnpj_fornecedor):

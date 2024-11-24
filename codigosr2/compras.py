@@ -12,7 +12,7 @@ import sys #para sair do sistema
 from menus import *
 from uteis import *
 
-arquivo_compras = "comprassr2.json"
+arquivo_compras = "SistemaEnginStock/codigosr2/DataBase/comprassr2.json"
 
 compras = ler_arquivo(arquivo_compras)
 
@@ -48,29 +48,32 @@ def listar_compras():
             print("       " + f"Preço Total da Compra: {dados['preco_compra']}.")
             print()
             print()
+        
 
-
-def buscar_compra():
+def buscar_compra(codigo_compra, codigo_compra_buscar):
 
     compras = ler_arquivo(arquivo_compras)
 
-    codigo_compra = input("Digite o código da compra: ")
-    validar_codigo(codigo_compra, compras)
+    #codigo_compra = input("Digite o código da compra: ")
+    #validar_codigo_buscar(codigo_compra, compras)
 
-    if not codigo_compra in compras:
-        print("COMPRA NÃO CADASTRADA!")
-    elif codigo_compra in compras and compras[codigo_compra] == codigo_compra:
-        for codigo_compra in compras:
-            buscar()
-            print("  " + "|" + " " * 17 + f"Código da Compra: {codigo_compra}" + " " * 24 + "|")
-            print("  " + "|" + " " * 17 + f"Nome de Produto: {compras['nome_produto']}" + " " * 21 + "|")
-            print("  " + "|" + " " * 17 + f"Preço Unitário: {compras['preco_unitario']}" + " " * 24 + "|")
-            print("  " + "|" + " " * 17 + f"Preço Total da Compra: {compras['preco_compra']}" + " " * 24 + "|")
-            print("  " + "|" + " " * 62 + "|")
-            print("  " + "|" + " " + '-' * 60 + " " + "|")
-            print("  " + "|" + " " + "=" * 60 + " " + "|")
-            print()
-            print()
+    #for dados in compras:
+    #for codigo_compra, dados in compras.items():
+
+    if not compras:
+        print("NENHUMA COMPRA CADASTRADA!")
+    else:
+        print(compras.get(codigo_compra, "Compra Não Encontrada!"))
+        #for codigo_compra in compras:
+            #buscar()
+            #if compras[codigo_compra] == codigo_compra:
+                
+                #print("       " + f"Código da Compra: {compras[codigo_compra]}.")
+                #print("       " + f"Nome de Produto: {compras['nome_produto']}.")
+                #print("       " + f"Preço Unitário: {compras['preco_unitario']}.")
+                #print("       " + f"Preço Total da Compra: {compras['preco_compra']}.")
+                #print()
+                #print()
 
 
 def atualizar_compra():
@@ -149,15 +152,21 @@ def main_compras():
                     preco_compra = float(input("Digite o valor total da compra: "))
                     preco_unitario = preco_compra // qtd_produto 
                     cnpj_fornecedor_compra = input("Digite o CNPJ do fornecedor que a compra foi feita: ")
-                    validar_cnpj(cnpj_fornecedor_compra, menu_compras())
+                    validar_cnpj(cnpj_fornecedor_compra)
                     adicionar_compra(codigo_compra, nome_produto, qtd_produto, tempo_entrega, preco_compra, preco_unitario, cnpj_fornecedor_compra)
                     return menu_compras()
             case 2:
                 listar_compras()
                 sleep(3)
             case 3:
-                buscar_compra()
-                sleep(3)
+
+                while True:
+                    codigo_compra_buscar = input("Digite o código da compra: ")
+                    validar_codigo_buscar(codigo_compra, compras)
+                    print("Teste159")
+                    buscar_compra(codigo_compra)
+                    print("Teste161")
+                    return menu_compras()
             case 4:
                 atualizar_compra()
                 return menu_compras()
