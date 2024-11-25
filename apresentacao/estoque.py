@@ -1,7 +1,7 @@
 import json
 import re
 
-# Função para carregar dados de um arquivo JSON (simula um banco de dados)
+
 def carregar_dados(arquivo):
     try:
         with open(arquivo, "r") as f:
@@ -13,22 +13,22 @@ def carregar_dados(arquivo):
         print("Erro ao decodificar o arquivo JSON. Criando um novo arquivo vazio.")
         return {}
 
-# Função para salvar dados em um arquivo JSON
+
 def salvar_dados(arquivo, dados):
     with open(arquivo, "w") as f:
         json.dump(dados, f, indent=4)
 
-# Caminho do arquivo JSON
+
 ESTOQUE_JSON = "estoque.json"
 
-# Carrega os dados do estoque
+
 estoque = carregar_dados(ESTOQUE_JSON)
 
-# Função para validar o formato do código do produto
+
 def validar_codigo_produto(codigo_produto):
     return bool(re.match(r'^P\d{3}$', codigo_produto))
 
-# Função para listar todos os produtos em estoque
+
 def listar_todos_produtos():
     print("\nLista de Todos os Produtos no Estoque:")
     if not estoque:
@@ -40,7 +40,7 @@ def listar_todos_produtos():
             print(f"Consumo Mensal: {dados['consumo_mensal']} | Estoque de Segurança: {dados['estoque_seguranca']}")
             print("-" * 50)
 
-# Função para buscar produtos com exatamente 180 dias parados
+
 def buscar_produtos_180_dias():
     print("\nProdutos com exatamente 180 dias parados no estoque:")
     encontrados = False
@@ -51,7 +51,7 @@ def buscar_produtos_180_dias():
     if not encontrados:
         print("Nenhum produto encontrado com exatamente 180 dias parados no estoque.")
 
-# Função para deletar produtos com exatamente 180 dias parados no estoque
+
 def deletar_produtos_180_dias():
     print("\nProdutos com exatamente 180 dias parados no estoque:")
     produtos_para_deletar = [codigo for codigo, dados in estoque.items() if dados['dias_parado'] == 180]
@@ -71,18 +71,18 @@ def deletar_produtos_180_dias():
     else:
         print("Nenhum produto encontrado com exatamente 180 dias parados no estoque.")
 
-# Função para cadastrar o número de dias no estoque e as informações de estoque
+
 def cadastro_dias_estoque():
     while True:
         try:
             codigo_produto = input("Digite o código do produto (formato P001): ").strip()
 
-            # Valida o formato do código do produto
+            
             if not validar_codigo_produto(codigo_produto):
                 print("Código do produto inválido! O formato correto é P001, P002, etc.")
                 continue
 
-            # Verifica se o código do produto já existe no estoque
+            
             if codigo_produto in estoque:
                 print(f"Produto com o código {codigo_produto} já cadastrado!")
                 atualizar = input("Deseja atualizar as informações deste produto? (S/N): ").strip().lower()
@@ -102,7 +102,7 @@ def cadastro_dias_estoque():
             estoque_maximo = float(input("Digite o estoque máximo: "))
             estoque_seguranca = float(input("Digite o estoque de segurança: "))
 
-            # Salva os dados no estoque
+           
             estoque[codigo_produto] = {
                 'nome': nome_produto,
                 'dias_parado': dias_parado,
@@ -117,7 +117,7 @@ def cadastro_dias_estoque():
         except ValueError:
             print("Erro: Digite valores válidos.")
 
-# Função para atualizar as informações do estoque
+
 def atualizar_informacoes_estoque(codigo_produto):
     if codigo_produto in estoque:
         print(f"Atualizando informações para o produto {codigo_produto} - {estoque[codigo_produto]['nome']}")
@@ -131,7 +131,7 @@ def atualizar_informacoes_estoque(codigo_produto):
     else:
         print("Produto não encontrado no estoque.")
 
-# Menu principal
+
 def menu_principal():
     while True:
         print("\nMenu de Estoque:")
@@ -161,5 +161,5 @@ def menu_principal():
         else:
             print("Opção inválida. Tente novamente.")
 
-# Executa o menu principal
+
 menu_principal()
