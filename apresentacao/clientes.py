@@ -1,9 +1,17 @@
-import os
+#Responsável: Gabriel Calado
+
 import json
+import os
 import re
+from menus import *
+from uteis import *
 
+#import os
+#import json
+#import re
 
-caminho_arquivo = "D:/GitHub/studies-python/Cesar/trabalho aeda clientes/clientes.json"
+arquivo_clientes = "SistemaEnginStock/apresentacao/DataBase/clientes.json"
+#caminho_arquivo = "D:/GitHub/studies-python/Cesar/trabalho aeda clientes/clientes.json"
 
 def buscar_cliente_por_cnpj():
    

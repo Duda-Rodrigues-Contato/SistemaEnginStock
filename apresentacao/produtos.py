@@ -1,9 +1,11 @@
+#Responsável: Maria Luiza
+
 import json
+import os
 import re
-
-
+from menus import *
+from uteis import *
 PRODUTOS_JSON = "produtos.json"
-
 
 def carregar_dados(arquivo):
     try:
