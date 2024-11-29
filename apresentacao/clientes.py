@@ -3,78 +3,161 @@
 import json
 import os
 import re
-from menus import *
 from uteis import *
 
-#import os
-#import json
-#import re
-
 arquivo_clientes = "SistemaEnginStock/apresentacao/DataBase/clientes.json"
-#caminho_arquivo = "D:/GitHub/studies-python/Cesar/trabalho aeda clientes/clientes.json"
 
-def buscar_cliente_por_cnpj():
-   
-    if os.path.exists(caminho_arquivo) and os.path.getsize(caminho_arquivo) > 0:
-        with open(caminho_arquivo, "r") as arquivo:
-            dados_existentes = json.load(arquivo)
-    else:
-        print("Nenhum cliente encontrado.")
-        return
+def create_client():
+    cliente = ler_arquivo(arquivo_clientes)
 
-    cnpj_cliente = input("Digite o CNPJ do cliente que deseja buscar (somente números): ")
-    cnpj_cliente = re.sub(r'[^0-9]', '', cnpj_cliente)  # Remove caracteres não numéricos
+    while True:
+        while True:
+            cnpj = input("Digite o CNPJ do cliente (14 dígitos): ")
+            cnpj = re.sub(r'[^0-9]', '', cnpj)
+            if not (cnpj.isdigit() and len(cnpj) == 14):
+                print("CNPJ inválido. Certifique-se de que contém 14 dígitos numéricos.")
+                continue
+            if any(cliente["cnpj"] == cnpj for cliente in dados_existentes):
+                print("Já existe um cliente com esse CNPJ. Digite um CNPJ diferente.")
+            else:
+                break
+
+        while True:
+            telefone = input("Digite o telefone do cliente (9 dígitos, começando com 9): ")
+            if not (telefone.isdigit() and len(telefone) == 9 and telefone.startswith('9')):
+                print("Telefone inválido. Certifique-se de que contém 9 dígitos e comece com 9.")
+                continue
+            if any(cliente["telefone"] == telefone for cliente in dados_existentes):
+                print("Já existe um cliente com esse telefone. Digite um telefone diferente.")
+            else:
+                break
+
+        cliente = {
+            "nome": input("Digite o nome do cliente: "),
+            "cnpj": cnpj,
+            "telefone": telefone
+        }
+
+        escrever_arquivo(arquivo_clientes, cliente)
+
+        print("\nCliente salvo com sucesso:")
+        print(f"Nome: {cliente['nome']}")
+        print(f"CNPJ: {cliente['cnpj']}")
+        print(f"Telefone: {cliente['telefone']}")
+
+        continuar = input("\nDeseja cadastrar outro cliente? (s/n): ").strip().lower()
+        if continuar != 's':
+            print("Cadastro encerrado.")
+            break
+
+
+def update_client():
+
+    cliente = ler_arquivo(arquivo_clientes)
+
+    while True:
+        cnpj_cliente = input("Digite o CNPJ do cliente que deseja atualizar (ou 'sair' para cancelar): ")
+        if cnpj_cliente.lower() == 'sair':
+            print("Operação cancelada.")
+            return
+        
+        cnpj_cliente = re.sub(r'[^0-9]', '', cnpj_cliente)
+        
+        cliente_encontrado = False
+        for cliente in dados_existentes:
+            if cliente["cnpj"] == cnpj_cliente:
+                cliente_encontrado = True
+                print("\nCliente encontrado. Deixe em branco para manter o valor atual.")
+                
+                cliente["nome"] = input(f"Nome [{cliente['nome']}]: ") or cliente["nome"]
+                
+                while True:
+                    novo_cnpj = input(f"CNPJ [{cliente['cnpj']}]: ") or cliente["cnpj"]
+                    novo_cnpj = re.sub(r'[^0-9]', '', novo_cnpj)
+                    if not (novo_cnpj.isdigit() and len(novo_cnpj) == 14):
+                        print("CNPJ inválido. Certifique-se de que contém 14 dígitos numéricos.")
+                        continue
+                    cliente["cnpj"] = novo_cnpj
+                    break
+
+                while True:
+                    novo_telefone = input(f"Telefone [{cliente['telefone']}]: ") or cliente["telefone"]
+                    if not (novo_telefone.isdigit() and len(novo_telefone) == 9 and novo_telefone.startswith('9')):
+                        print("Telefone inválido. Certifique-se de que contém 9 dígitos e comece com 9.")
+                        continue
+                    cliente["telefone"] = novo_telefone
+                    break
+                
+                escrever_arquivo(arquivo_clientes, cliente)
+
+                print("\nCliente atualizado com sucesso!")
+                print(f"Nome: {cliente['nome']}")
+                print(f"CNPJ: {cliente['cnpj']}")
+                print(f"Telefone: {cliente['telefone']}")
+
+                return cliente
+        
+        if not cliente_encontrado:
+            print("Cliente com CNPJ especificado não encontrado. Tente novamente.")
+
+def delete_client():
+
+    cliente = ler_arquivo(arquivo_clientes)
+
+    cnpj_cliente = input("Digite o CNPJ do cliente que deseja excluir: ")
+
+    cnpj_cliente = re.sub(r'[^0-9]', '', cnpj_cliente)
 
     if not (cnpj_cliente.isdigit() and len(cnpj_cliente) == 14):
         print("CNPJ inválido. Certifique-se de que contém 14 dígitos numéricos.")
         return
 
     cliente_encontrado = False
-    for cliente in dados_existentes:
+    for i, cliente in enumerate(dados_existentes):
         if cliente["cnpj"] == cnpj_cliente:
             cliente_encontrado = True
-            cnpj_formatado = f"{cliente['cnpj'][:2]}.{cliente['cnpj'][2:5]}.{cliente['cnpj'][5:8]}/{cliente['cnpj'][8:12]}-{cliente['cnpj'][12:]}"
-            print("\nCliente encontrado:")
-            print(f"Nome: {cliente['nome']}")
-            print(f"CNPJ: {cnpj_formatado}")
-            print(f"Telefone: {cliente['telefone']}")
-            print("-" * 30)
+            del dados_existentes[i]
+            print(f"\nCliente com CNPJ {cnpj_cliente} excluído com sucesso.")
             break
 
     if not cliente_encontrado:
-        print("\nCliente com o CNPJ especificado não encontrado.")
+        print("Cliente com o CNPJ especificado não encontrado.")
+        return
+
+    escrever_arquivo(arquivo_clientes, cliente)
+
+def list_clients():
+
+    cliente = ler_arquivo(arquivo_clientes)
+
+    if not cliente:
+        print("NENHUM CLIENTE CADASTRADO!")
+    else:
+        listar()
+        for cnpj, dados in cliente.items():
+            print(f"Nome: {dados['nome']}")
+            print(f"CNPJ: {dados['cnpj']}")
+            print(f"Telefone: {dados['telefone']}")
+            print()
+            print()
 
 
-def menu():
-    
-    print("\nMenu de Opções:")
-    print("1. Cadastrar cliente")
-    print("2. Atualizar cliente")
-    print("3. Deletar cliente")
-    print("4. Listar clientes")
-    print("5. Buscar cliente por CNPJ")
-    print("6. Sair")
+def buscar_cliente():
 
-def main():
-    while True:
-        menu()
-        opcao = input("Digite o número da opção desejada: ").strip()
+    cliente = ler_arquivo(arquivo_clientes)
 
-        if opcao == "1":
-            create_client()
-        elif opcao == "2":
-            update_client()
-        elif opcao == "3":
-            delete_client()
-        elif opcao == "4":
-            list_clients()
-        elif opcao == "5":
-            buscar_cliente_por_cnpj()
-        elif opcao == "6":
-            print("Encerrando o sistema. Até mais!")
-            break
-        else:
-            print("Opção inválida. Tente novamente.")
+    encontrado = False
+    busca = input("Digite o nome ou o CNPJ do cliente que deseja buscar: ")
+    validar_cnpj(busca)
 
-if __name__ == "__main__":
-    main()
+    if not cliente:
+        print("NENHUM CLIENTE CADASTRADO!")
+    else:
+        for busca, dados in cliente.items():
+            if cliente['cnpj'] == busca:
+                print(f"Nome: {dados['nome']}")
+                print(f"CNPJ: {dados['cnpj']}")
+                print(f"Telefone: {dados['telefone']}")
+                print()
+                print()
+                encontrado = True

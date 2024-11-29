@@ -1,6 +1,6 @@
 import json
 import os
-import re  # Biblioteca para expressões regulares
+import re
 
 
 ARQUIVO_FORNECEDORES = 'fornecedores.json'
@@ -34,8 +34,9 @@ def validar_cnpj(cnpj):
     padrao = r'^\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}$'
     return bool(re.match(padrao, cnpj))
 
-def cadastrar_fornecedor(fornecedores):
+def cadastrar_fornecedor():
     
+    fornecedores = carregar_fornecedores()
     nome_do_fornecedor = input('Informe o nome do fornecedor: ')
     
     
@@ -61,8 +62,9 @@ def cadastrar_fornecedor(fornecedores):
     print('Cadastro realizado com sucesso!')
     salvar_fornecedores(fornecedores)
 
-def listar_fornecedores(fornecedores):
+def listar_fornecedores():
     
+    fornecedores = carregar_fornecedores()
     if not fornecedores:
         print('Nenhum fornecedor cadastrado.')
     else:
@@ -73,8 +75,8 @@ def listar_fornecedores(fornecedores):
             print(f'Tempo de Entrega: {dados["tempo_de_entrega"]} dias')
             print('-------------------------------')
 
-def atualizar_fornecedor(fornecedores):
-    
+def atualizar_fornecedor():
+    fornecedores = carregar_fornecedores()
     cnpj = input('Informe o CNPJ do fornecedor que deseja atualizar: ')
     
     if cnpj not in fornecedores:
@@ -92,7 +94,9 @@ def atualizar_fornecedor(fornecedores):
     print('Fornecedor atualizado com sucesso!')
     salvar_fornecedores(fornecedores)
 
-def deletar_fornecedor(fornecedores):
+def deletar_fornecedor():
+
+    fornecedores = carregar_fornecedores()
     
     cnpj = input('Informe o CNPJ do fornecedor que deseja deletar: ')
     
@@ -103,8 +107,9 @@ def deletar_fornecedor(fornecedores):
     else:
         print('Fornecedor não encontrado.')
 
-def buscar_fornecedor_por_cnpj(fornecedores):
+def buscar_fornecedor_por_cnpj():
     
+    fornecedores = carregar_fornecedores()
     cnpj = input('Informe o CNPJ do fornecedor que deseja buscar: ')
     
     if cnpj in fornecedores:
@@ -141,14 +146,6 @@ def escolha(fornecedores):
             print('Opção inválida, por favor, escolha uma opção válida.')
     
     return True  
-
-def main():
-    fornecedores = carregar_fornecedores()
-    while True:  
-        nome_sistema()
-        menu()
-        if not escolha(fornecedores):  
-            break
 
 if __name__ == '__main__':
     main()

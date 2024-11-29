@@ -7,8 +7,8 @@ from time import sleep
 from menus import *
 
 def arquivo_existe(arquivo):
-    if not os.path.exists(arquivo) or os.path.getsize(arquivo) < 0:
-        with open(arquivo_existe, 'w') as f:
+    if not os.path.exists(arquivo):
+        with open(arquivo, 'w') as f:
             json.dump({}, f, indent=4)
 
 def ler_arquivo(arquivo):
@@ -107,6 +107,17 @@ def validar_cnpj(cnpj_fornecedor):
         sys.exit()
     else:
         print("CNPJ Válido!")   
+        sleep(1.5)
+
+
+def verificar_telefone(telefone):
+
+    if not telefone.isdigit() and len(telefone) == 9 and telefone.startswith('9'):
+        print("Número de Telefone Inváido!")
+        sleep(3)
+        sys.exit()
+    else:
+        print("Número de Telefone Váido!")
         sleep(1.5)
 
 

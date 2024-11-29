@@ -118,7 +118,10 @@ def cadastro_dias_estoque():
             print("Erro: Digite valores válidos.")
 
 
-def atualizar_informacoes_estoque(codigo_produto):
+def atualizar_informacoes_estoque():
+
+    codigo_produto = input("Digite o código do produto a ser atualizado: ").strip()
+
     if codigo_produto in estoque:
         print(f"Atualizando informações para o produto {codigo_produto} - {estoque[codigo_produto]['nome']}")
         estoque[codigo_produto]['dias_parado'] = int(input("Digite o novo número de dias parado: "))
@@ -132,7 +135,7 @@ def atualizar_informacoes_estoque(codigo_produto):
         print("Produto não encontrado no estoque.")
 
 
-def menu_principal():
+def menu_estoque():
     while True:
         print("\nMenu de Estoque:")
         print("1 - Cadastrar novo produto")
@@ -160,6 +163,3 @@ def menu_principal():
             break
         else:
             print("Opção inválida. Tente novamente.")
-
-
-menu_principal()

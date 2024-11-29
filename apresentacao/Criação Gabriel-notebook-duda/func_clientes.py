@@ -1,10 +1,15 @@
-import os
+#Responsável: Gabriel Calado
+
 import json
+import os
 import re
+from uteis import *
+
+arquivo_clientes = "SistemaEnginStock/apresentacao/DataBase/clientes.json"
 
 def create_client():
-    caminho_arquivo = "D:/GitHub/studies-python/Cesar/trabalho aeda clientes/clientes.json"
-    
+    cliente = ler_arquivo(arquivo_clientes)
+
     dados_existentes = []
     if os.path.exists(caminho_arquivo) and os.path.getsize(caminho_arquivo) > 0:
         with open(caminho_arquivo, "r") as arquivo:
@@ -12,7 +17,7 @@ def create_client():
 
     while True:
         while True:
-            cnpj = input("Digite o CNPJ do cliente (14 dígitos): ")
+            cnpj= input("Digite o CNPJ do cliente (14 dígitos): ")
             cnpj = re.sub(r'[^0-9]', '', cnpj)
             if not (cnpj.isdigit() and len(cnpj) == 14):
                 print("CNPJ inválido. Certifique-se de que contém 14 dígitos numéricos.")
@@ -55,7 +60,8 @@ def create_client():
 
 
 def update_client():
-    caminho_arquivo = "D:/GitHub/studies-python/Cesar/trabalho aeda clientes/clientes.json"
+
+    cliente = ler_arquivo(arquivo_clientes)
     
     if os.path.exists(caminho_arquivo) and os.path.getsize(caminho_arquivo) > 0:
         with open(caminho_arquivo, "r") as arquivo:
@@ -111,7 +117,8 @@ def update_client():
             print("Cliente com CNPJ especificado não encontrado. Tente novamente.")
 
 def delete_client():
-    caminho_arquivo = "D:/GitHub/studies-python/Cesar/trabalho aeda clientes/clientes.json"
+
+    cliente = ler_arquivo(arquivo_clientes)
     
     if os.path.exists(caminho_arquivo) and os.path.getsize(caminho_arquivo) > 0:
         with open(caminho_arquivo, "r") as arquivo:
@@ -144,7 +151,8 @@ def delete_client():
         json.dump(dados_existentes, arquivo, indent=4)
 
 def list_clients():
-    caminho_arquivo = "D:/GitHub/studies-python/Cesar/trabalho aeda clientes/clientes.json"
+
+    cliente = ler_arquivo(arquivo_clientes)
     
     if os.path.exists(caminho_arquivo) and os.path.getsize(caminho_arquivo) > 0:
         with open(caminho_arquivo, "r") as arquivo:
@@ -187,3 +195,8 @@ def list_clients():
             print("\nCliente não encontrado. Verifique o nome ou CNPJ e tente novamente.")
     else:
         print("\nOpção inválida. Tente novamente.")
+
+
+def buscar_cliente():
+
+    cliente = ler_arquivo(arquivo_clientes)

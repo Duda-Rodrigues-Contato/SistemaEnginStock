@@ -180,6 +180,3 @@ def menu_principal():
             break
         else:
             print("Opção inválida. Tente novamente.")
-
-
-menu_principal()
