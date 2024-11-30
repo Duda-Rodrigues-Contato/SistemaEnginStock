@@ -96,7 +96,7 @@ def cadastro_dias_estoque():
                 'estoque_seguranca': estoque_seguranca
             }
             salvar_dados(ESTOQUE_JSON, estoque)
-            print(f"Dias em estoque {nome_produto} cadastrado com sucesso!")
+            print(f"Produto {nome_produto} cadastrado com sucesso!")
             break
         except ValueError:
             print("Erro: Digite valores válidos.")
