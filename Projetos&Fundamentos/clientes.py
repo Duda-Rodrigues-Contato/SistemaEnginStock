@@ -82,31 +82,6 @@ def listar_clientes():
         print(f"Telefone: {cliente['telefone']}")
         print("-" * 30)
 
-def buscar_cliente():
-    caminho_arquivo = obter_caminho_arquivo()
-    dados_existentes = carregar_dados(caminho_arquivo)
-
-    if not dados_existentes:
-        print("Nenhum cliente encontrado.")
-        return
-
-    busca = input("Digite o nome ou o CNPJ do cliente que deseja buscar: ").strip()
-    busca = re.sub(r'[^0-9]', '', busca) if busca.isdigit() else busca.lower()
-
-    cliente_encontrado = False
-    for cliente in dados_existentes:
-        if cliente["cnpj"] == busca or cliente["nome"].lower() == busca:
-            cliente_encontrado = True
-            cnpj_formatado = f"{cliente['cnpj'][:2]}.{cliente['cnpj'][2:5]}.{cliente['cnpj'][5:8]}/{cliente['cnpj'][8:12]}-{cliente['cnpj'][12:]}"
-            print("\nCliente encontrado:")
-            print(f"Nome: {cliente['nome']}")
-            print(f"CNPJ: {cnpj_formatado}")
-            print(f"Telefone: {cliente['telefone']}")
-            print("-" * 30)
-            break
-    if not cliente_encontrado:
-        print("\nCliente não encontrado. Verifique o nome ou CNPJ e tente novamente.")
-
 def buscar_cliente_por_cnpj():
     caminho_arquivo = obter_caminho_arquivo()
     dados_existentes = carregar_dados(caminho_arquivo)
@@ -208,31 +183,28 @@ def menu_clientes():
     print("-" * 60)
     print("  " + "|" + " " * 17 + "5.1. Cadastrar Clientes." + " " * 21 + "|")
     print("  " + "|" + " " * 17 + "5.2. Listar Clientes." + " " * 24 + "|")
-    print("  " + "|" + " " * 17 + "5.3. Buscar Cliente Cadastrado." + " " * 14 + "|")
+    print("  " + "|" + " " * 17 + "5.3. Buscar Cliente pelo CNPJ." + " " * 14 + "|")
     print("  " + "|" + " " * 17 + "5.4. Alterar Dados de Clientes." + " " * 14 + "|")
     print("  " + "|" + " " * 17 + "5.5. Deletar Cliente." + " " * 24 + "|")
-    print("  " + "|" + " " * 17 + "5.6. Buscar Cliente pelo CNPJ." + " " * 16 + "|")
-    print("  " + "|" + " " * 17 + "5.7. Encerrar Sistema." + " " * 23 + "|")
+    print("  " + "|" + " " * 17 + "5.6. Encerrar Sistema." + " " * 23 + "|")
     print("-" * 60)
 
 def main():
     while True:
         menu_clientes()
-        opcao = input("Escolha uma opção (5.1 a 5.7): ").strip()
+        opcao = input("Escolha uma opção (5.1 a 5.6): ").strip()
 
         if opcao == "5.1":
             cadastrar_cliente()
         elif opcao == "5.2":
             listar_clientes()
         elif opcao == "5.3":
-            buscar_cliente()
+            buscar_cliente_por_cnpj()
         elif opcao == "5.4":
             alterar_cliente()
         elif opcao == "5.5":
             deletar_cliente()
         elif opcao == "5.6":
-            buscar_cliente_por_cnpj()
-        elif opcao == "5.7":
             print("Encerrando sistema. Até mais!")
             exit()
         else:
@@ -241,3 +213,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+   
