@@ -1,6 +1,6 @@
 import json
 import os
-import re  # Biblioteca para expressões regulares
+import re  
 ARQUIVO_FORNECEDORES = 'fornecedores.json'
 def nome_sistema():
     print('----- Sistema Fornecedores -----')
